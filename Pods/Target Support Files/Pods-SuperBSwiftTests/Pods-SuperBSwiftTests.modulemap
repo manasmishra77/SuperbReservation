@@ -1,0 +1,6 @@
+framework module Pods_SuperBSwiftTests {
+  umbrella header "Pods-SuperBSwiftTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

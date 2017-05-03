@@ -1,0 +1,6 @@
+framework module Pods_SuperBSwift {
+  umbrella header "Pods-SuperBSwift-umbrella.h"
+
+  export *
+  module * { export * }
+}

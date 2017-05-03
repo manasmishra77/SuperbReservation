@@ -1,0 +1,6 @@
+framework module Pods_SuperBSwiftUITests {
+  umbrella header "Pods-SuperBSwiftUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}

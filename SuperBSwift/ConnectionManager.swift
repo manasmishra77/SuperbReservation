@@ -11,10 +11,15 @@ import MBProgressHUD
 
 class ConnectionManager: NSObject
 {
-    class func get(_ uri: String, showProgressView: Bool = false, completionHandler: @escaping (_ code: Int, _ response: AnyObject) -> ())
+    class func get(_ uri: String, showProgressView: Bool = false, parameter: [String: AnyObject]?, completionHandler: @escaping (_ code: Int, _ response: AnyObject) -> ())
     {
+        var newUri = uri
         //ConnectionManager.connect("GET", uri: uri, completionHandler: completionHandler)
-        ConnectionManager.connect("GET", uri: uri, showProgressView: showProgressView, completionHandler: completionHandler)
+        if parameter != nil{
+            let parameterString = parameter?.stringFromHttpParameters()
+            newUri = "\(uri)?\(parameterString!)"
+        }
+        ConnectionManager.connect("GET", uri: newUri, showProgressView: showProgressView, completionHandler: completionHandler)
     }
     
     class func post(_ uri: String, body: AnyObject, useToken: Bool = false, showProgressView: Bool = false, completionHandler: @escaping (_ code: Int, _ response: AnyObject) -> ())
@@ -93,7 +98,7 @@ class ConnectionManager: NSObject
                     let spinnerActivity = MBProgressHUD.showAdded(to: appDel.window!, animated: true);
                     spinnerActivity.label.text = "Loading"
                     spinnerActivity.label.textColor =  UIColor.white
-                    spinnerActivity.bezelView.color = UIColor(red: 240.0/255.0, green: 85.0/255.0, blue: 92.0/255.0, alpha: 1.0)
+                    spinnerActivity.bezelView.color = UIColor.clear
                     spinnerActivity.detailsLabel.text = "Please Wait!!"
                     spinnerActivity.detailsLabel.textColor =  UIColor.white
                     spinnerActivity.isUserInteractionEnabled = false
@@ -173,6 +178,7 @@ class ConnectionManager: NSObject
         }
     }
     
+ 
     
     
 }

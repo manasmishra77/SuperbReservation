@@ -10,6 +10,13 @@ import UIKit
 
 class DashboardTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var imageUser: UIImageView!
+    @IBOutlet weak var numberOfPepole: UILabel!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var timelabel: UILabel!
+    @IBOutlet weak var importantImageView: UIImageView!
+    @IBOutlet weak var timeImageView: UIImageView!
+    @IBOutlet weak var locationImageView: UIImageView!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

@@ -18,6 +18,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        navigationController?.isNavigationBarHidden = false
+        navigationController?.navigationBar.barTintColor = UIColor(hex: 0xAD9557, alpha: 0.6)
         loginCheckUp()
     }
 
@@ -77,17 +79,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         changeToDashboardViewcontroller()
         }
     func changeToDashboardViewcontroller(){
-        let connectedToInterNet = Utilities.isConnectedToNetwork()
-        if !connectedToInterNet{
-            let alert = Utilities.alertViewController(title: "No internet", msg: "Check your internet connection!")
-            self.present(alert, animated: true, completion: nil)
-            return
-        }
         print(selectedRestaurant.id)
+        SessionManager.current.selectedRestaurant = selectedRestaurant
         if selectedRestaurant.id != ""{
             //to Dashboard viewcontroller
-            let vc = self.storyboard?.instantiateViewController(withIdentifier: "DashboardVC")
-            self.navigationController?.setViewControllers([vc!], animated: true)
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "DashboardVC") as! DashboardViewController
+            vc.selectedRestaurant = selectedRestaurant
+            self.navigationController?.setViewControllers([vc], animated: true)
         }
 
     }

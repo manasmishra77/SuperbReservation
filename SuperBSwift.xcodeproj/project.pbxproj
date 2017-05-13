@@ -9,10 +9,10 @@
 /* Begin PBXBuildFile section */
 		2944CE1C1EB5A6A1003B9C0A /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2944CE1B1EB5A6A1003B9C0A /* SignInViewController.swift */; };
 		2944CE1F1EB634A4003B9C0A /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2944CE1E1EB634A4003B9C0A /* SessionManager.swift */; };
+		298228501EC4640100ACFEB2 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2982284F1EC4640100ACFEB2 /* CalendarViewController.swift */; };
 		29B628301EB0767700468F43 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B6282F1EB0767700468F43 /* AppDelegate.swift */; };
 		29B628321EB0767700468F43 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B628311EB0767700468F43 /* ViewController.swift */; };
 		29B628351EB0767700468F43 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 29B628331EB0767700468F43 /* Main.storyboard */; };
-		29B628371EB0767700468F43 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 29B628361EB0767700468F43 /* Assets.xcassets */; };
 		29B6283A1EB0767700468F43 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 29B628381EB0767700468F43 /* LaunchScreen.storyboard */; };
 		29B628451EB0767800468F43 /* SuperBSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B628441EB0767800468F43 /* SuperBSwiftTests.swift */; };
 		29B628501EB0767800468F43 /* SuperBSwiftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B6284F1EB0767800468F43 /* SuperBSwiftUITests.swift */; };
@@ -21,7 +21,10 @@
 		29B628671EB07DBE00468F43 /* DashboardTransitionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B628661EB07DBE00468F43 /* DashboardTransitionAnimator.swift */; };
 		29B628691EB07DD800468F43 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B628681EB07DD800468F43 /* MenuViewController.swift */; };
 		29B6286B1EB07DE500468F43 /* MenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B6286A1EB07DE500468F43 /* MenuTableViewCell.swift */; };
+		29CD79891EC0426D00B8C629 /* DashboardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29CD79881EC0426D00B8C629 /* DashboardTableViewCell.swift */; };
 		29D3FA061EB711C90086FA02 /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D3FA051EB711C90086FA02 /* DashboardViewController.swift */; };
+		29D89F291EC3019F00BD118A /* Resource in Resources */ = {isa = PBXBuildFile; fileRef = 29D89F281EC3019F00BD118A /* Resource */; };
+		29D89F2B1EC301D000BD118A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 29D89F2A1EC301D000BD118A /* Assets.xcassets */; };
 		44229729ADA6C2C36E480E60 /* Pods_SuperBSwiftTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A689E7B2B401818B655F387 /* Pods_SuperBSwiftTests.framework */; };
 		9DA4B6A6D94B0ABC78EBAD6F /* Pods_SuperBSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D2C579D13F7D3104C3D95BB /* Pods_SuperBSwift.framework */; };
 		E3EFDC4A08C0D6147A6F8DC7 /* Pods_SuperBSwiftUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 705621B37F3A1587ABCA146A /* Pods_SuperBSwiftUITests.framework */; };
@@ -48,11 +51,11 @@
 		115F5AFF75C30402826DA5A6 /* Pods-SuperBSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SuperBSwift.release.xcconfig"; path = "Pods/Target Support Files/Pods-SuperBSwift/Pods-SuperBSwift.release.xcconfig"; sourceTree = "<group>"; };
 		2944CE1B1EB5A6A1003B9C0A /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		2944CE1E1EB634A4003B9C0A /* SessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
+		2982284F1EC4640100ACFEB2 /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		29B6282C1EB0767700468F43 /* SuperBSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SuperBSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		29B6282F1EB0767700468F43 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		29B628311EB0767700468F43 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		29B628341EB0767700468F43 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		29B628361EB0767700468F43 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		29B628391EB0767700468F43 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		29B6283B1EB0767700468F43 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		29B628401EB0767800468F43 /* SuperBSwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SuperBSwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -67,7 +70,10 @@
 		29B628681EB07DD800468F43 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		29B6286A1EB07DE500468F43 /* MenuTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTableViewCell.swift; sourceTree = "<group>"; };
 		29B6286C1EB0806C00468F43 /* SuperBSwift-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SuperBSwift-Bridging-Header.h"; sourceTree = "<group>"; };
+		29CD79881EC0426D00B8C629 /* DashboardTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardTableViewCell.swift; sourceTree = "<group>"; };
 		29D3FA051EB711C90086FA02 /* DashboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
+		29D89F281EC3019F00BD118A /* Resource */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Resource; sourceTree = "<group>"; };
+		29D89F2A1EC301D000BD118A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Resource/Assets.xcassets; sourceTree = "<group>"; };
 		539D6B0125C03A60C1CCFF6E /* Pods-SuperBSwiftUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SuperBSwiftUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SuperBSwiftUITests/Pods-SuperBSwiftUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		705621B37F3A1587ABCA146A /* Pods_SuperBSwiftUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SuperBSwiftUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A689E7B2B401818B655F387 /* Pods_SuperBSwiftTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SuperBSwiftTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -136,14 +142,16 @@
 				2944CE1B1EB5A6A1003B9C0A /* SignInViewController.swift */,
 				29B628681EB07DD800468F43 /* MenuViewController.swift */,
 				29D3FA051EB711C90086FA02 /* DashboardViewController.swift */,
+				2982284F1EC4640100ACFEB2 /* CalendarViewController.swift */,
 				29B628611EB07D1100468F43 /* Utilities */,
 				29B628601EB07CFE00468F43 /* View */,
 				29B6285D1EB07CD800468F43 /* Model */,
 				29B628331EB0767700468F43 /* Main.storyboard */,
-				29B628361EB0767700468F43 /* Assets.xcassets */,
+				29D89F2A1EC301D000BD118A /* Assets.xcassets */,
 				29B628381EB0767700468F43 /* LaunchScreen.storyboard */,
 				29B6283B1EB0767700468F43 /* Info.plist */,
 				29B6286C1EB0806C00468F43 /* SuperBSwift-Bridging-Header.h */,
+				29D89F281EC3019F00BD118A /* Resource */,
 			);
 			path = SuperBSwift;
 			sourceTree = "<group>";
@@ -178,6 +186,7 @@
 			isa = PBXGroup;
 			children = (
 				29B6286A1EB07DE500468F43 /* MenuTableViewCell.swift */,
+				29CD79881EC0426D00B8C629 /* DashboardTableViewCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -335,8 +344,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				29D89F291EC3019F00BD118A /* Resource in Resources */,
 				29B6283A1EB0767700468F43 /* LaunchScreen.storyboard in Resources */,
-				29B628371EB0767700468F43 /* Assets.xcassets in Resources */,
+				29D89F2B1EC301D000BD118A /* Assets.xcassets in Resources */,
 				29B628351EB0767700468F43 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -500,6 +510,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				298228501EC4640100ACFEB2 /* CalendarViewController.swift in Sources */,
 				29B628671EB07DBE00468F43 /* DashboardTransitionAnimator.swift in Sources */,
 				29B628691EB07DD800468F43 /* MenuViewController.swift in Sources */,
 				2944CE1F1EB634A4003B9C0A /* SessionManager.swift in Sources */,
@@ -509,6 +520,7 @@
 				29B628631EB07D4B00468F43 /* ConnectionManager.swift in Sources */,
 				29D3FA061EB711C90086FA02 /* DashboardViewController.swift in Sources */,
 				29B628651EB07D6A00468F43 /* Utilities.swift in Sources */,
+				29CD79891EC0426D00B8C629 /* DashboardTableViewCell.swift in Sources */,
 				29B628301EB0767700468F43 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -667,6 +679,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 4N9DB5EG8S;
 				INFOPLIST_FILE = SuperBSwift/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.zaedo.superb;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -686,6 +699,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 4N9DB5EG8S;
 				INFOPLIST_FILE = SuperBSwift/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.zaedo.superb;
 				PRODUCT_NAME = "$(TARGET_NAME)";

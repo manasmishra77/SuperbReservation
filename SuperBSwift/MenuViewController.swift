@@ -10,10 +10,12 @@ import UIKit
 
 protocol MenuViewControllerDelegate
 {
-    func showPendingJobs()
-    func showCompletedJobs()
-    func showCalendar()
-    func showAvailability()
+    func showDashBoard()
+    func showCalenderView()
+    func showAnalysis()
+    func showSearchView()
+    func showWaitingList()
+    func showChooseRestaurant()
     func showLogout()
     
     func showOpacityLayer()
@@ -36,17 +38,8 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
         super.viewDidLoad()
         
         delegate?.showOpacityLayer()
-        
-        profilePictureImageView.adoptCircularShape()
-        profilePictureImageView.layer.borderColor = UIColor.white.cgColor
-        profilePictureImageView.layer.borderWidth = 2.0
-        
-        sitterNameLabel.text = UserDefaults.standard.object(forKey: "name") as? String
-        
-        if let profilePicture = UserDefaults.standard.object(forKey: "profilePicture") as? String, let uuidUser = UserDefaults.standard.object(forKey: "uuidUser") as? String
-        {
-           
-        }
+        tableView.delegate = self
+        tableView.dataSource = self
     }
 
     override func didReceiveMemoryWarning()
@@ -76,32 +69,43 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         if (option.contains("Log out"))
         {
-            UIApplication.shared.unregisterForRemoteNotifications()
-            self.dismiss(animated: false, completion: {
+            self.dismiss(animated: true, completion: {
                 self.delegate?.showLogout()
             })
         }
-        else if (option.contains("Log out"))
+        else if (option.contains("Analytics"))
         {
-            self.dismiss(animated: false, completion: {
-                self.delegate?.showCalendar()
+            self.dismiss(animated: true, completion: {
+                self.delegate?.showAnalysis()
             })
         }
-        else if (option.contains("Log out"))
+        else if (option.contains("Choose Restaurant"))
         {
-            self.dismiss(animated: false, completion: {
-                self.delegate?.showPendingJobs()
+            self.dismiss(animated: true, completion: {
+                self.delegate?.showChooseRestaurant()
             })        }
-        else if (option.contains("Log out"))
+        else if (option.contains("Search"))
         {
-            self.dismiss(animated: false, completion: {
-                self.delegate?.showCompletedJobs()
+            self.dismiss(animated: true, completion: {
+                self.delegate?.showSearchView()
             })
         }
-        else if (option.contains("Log out"))
+        else if (option.contains("Waiting list"))
         {
-            self.dismiss(animated: false, completion: {
-                self.delegate?.showAvailability()
+            self.dismiss(animated: true, completion: {
+                self.delegate?.showWaitingList()
+            })
+        }
+        else if (option.contains("Calendar"))
+        {
+            self.dismiss(animated: true, completion: {
+                self.delegate?.showCalenderView()
+            })
+        }
+        else if (option.contains("List View"))
+        {
+            self.dismiss(animated: true, completion: {
+                self.delegate?.showDashBoard()
             })
         }
     }

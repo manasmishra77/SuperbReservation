@@ -44,25 +44,27 @@ class DashboardTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioni
             UIView.animate(withDuration: transitionDuration(using: transitionContext), delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(), animations: { () -> Void in
                 
                 toVC?.view.frame = finalFrame
-                fromVC?.view.frame.origin.x = (toVC!.view.frame.width) - 72
-                }) { (finished: Bool) -> Void in
-                    transitionContext.completeTransition(true)
+                fromVC?.view.frame.origin.x = (toVC!.view.frame.width - 72)
+            }) { (finished: Bool) -> Void in
+                transitionContext.completeTransition(true)
             }
         }
         else
         {
+            
             toVC?.view.isUserInteractionEnabled = true
             
-            finalFrame.origin.x = -toVC!.view.bounds.size.width
+            finalFrame.origin.x = 0 //-toVC!.view.bounds.size.width
             
             UIView.animate(withDuration: transitionDuration(using: transitionContext), animations: { () -> Void in
                 
                 toVC?.view.tintAdjustmentMode = UIViewTintAdjustmentMode.automatic
-                toVC?.view.frame.origin.x = 0
-                fromVC?.view.frame = finalFrame
-                                
-                }, completion: { (finished: Bool) -> Void in
-                    transitionContext.completeTransition(true)
+                //fromVC?.view.frame.origin.x = 0
+                fromVC?.view.frame.origin.x = -(fromVC?.view.frame.size.width)!
+                toVC?.view.frame = finalFrame
+                
+            }, completion: { (finished: Bool) -> Void in
+                transitionContext.completeTransition(true)
             })
         }
     }

@@ -15,8 +15,8 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var userNameTF: UITextField!
     @IBOutlet weak var passwordTF: UITextField!
     
-    var validEmail = false
-    var validPassword = false
+    var validEmail = true //change
+    var validPassword = true //change
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +24,9 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         // Do any additional setup after loading the view.
         userNameTF.delegate = self
         passwordTF.delegate = self
+        userNameTF.text = "demo@dinesuperb.com" //change
+        passwordTF.text = "ds2017" //change
+
         self.navigationController?.isNavigationBarHidden = true
         NotificationCenter.default.addObserver(self, selector: #selector(SignInViewController.keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(SignInViewController.keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
@@ -71,6 +74,8 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
             view.isUserInteractionEnabled = false
             let loginBody = ["username": userNameTF.text, "password": passwordTF.text]
             ConnectionManager.post("/signin", body: loginBody as AnyObject, useToken: false, showProgressView: true, completionHandler: {(status, response) in
+                
+                self.view.isUserInteractionEnabled = true
                 if status == 500{
                     let alert = Utilities.alertViewController(title: "Network Error", msg: "Try Again!!")
                     self.present(alert, animated: true, completion: nil)
@@ -84,7 +89,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
                                     restaurants?.append(newRestaurant)
                                 }
                             }                            
-                            let userInfo = UserInfo(id: userInfoDict["id"] as? String, name: userInfoDict["name"] as? [String: String], email: userInfoDict["email"] as? String, zipCode: userInfoDict["zipCode"] as? String, mobile: (userInfoDict["mobile"] as? String)!, hasCard: userInfoDict["hasCard"] as? Bool, token: userInfoDict["token"] as? String, isNew: userInfoDict["isNew"] as? Bool, manager: userInfoDict["manager"] as? Bool, staff: userInfoDict["staff"] as? Bool, admin: userInfoDict["admin"] as? Bool, restaurants: restaurants)
+                            let userInfo = UserInfo(id: userInfoDict["id"] as? String, name: userInfoDict["name"] as? [String: String], email: userInfoDict["email"] as? String, zipCode: userInfoDict["zipCode"] as? String, mobile: (userInfoDict["mobile"] as? String)!, hasCard: userInfoDict["hasCard"] as? Bool, token: userInfoDict["token"] as? String, isNew: userInfoDict["isNew"] as? Bool, manager: userInfoDict["manager"] as? Bool, staff: userInfoDict["staff"] as? Bool, admin: userInfoDict["admin"] as? Bool,vip: userInfoDict["vip"] as? Bool, photoUrl: userInfoDict["photoUrl"] as? String, restaurants: restaurants)
                             let current = SessionManager.current
                             current.userInfo = userInfo
                             current.userLoggedIn = true

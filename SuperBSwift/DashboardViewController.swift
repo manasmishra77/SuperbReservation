@@ -190,24 +190,29 @@ class DashboardViewController: UIViewController,UIViewControllerTransitioningDel
     
     //Delegate Methods of MenuViewControllerDelegate
     func showLogout(){
-        
+        SessionManager.current.userLoggedIn = false
+        showChooseRestaurant()
     }
     func showAnalysis() {
-        
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "AnalyticsVC") as! AnalyticsViewController
+        self.navigationController?.setViewControllers([vc], animated: false)
     }
     func showDashBoard() {
-        
+        //let vc = self.storyboard?.instantiateViewController(withIdentifier: "DashboardVC") as! DashboardViewController
+        //self.navigationController?.setViewControllers([vc], animated: false)
     }
     func showSearchView() {
         
     }
     func showWaitingList() {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "WitingListVC") as! WitingListViewController
+        self.navigationController?.setViewControllers([vc], animated: false)
         
     }
     func showCalenderView() {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "CalendarVC") as! CalendarViewController
-        
         self.navigationController?.setViewControllers([vc], animated: false)
+        
     }
     func showChooseRestaurant() {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChooseRestaurantVC") as! ViewController

@@ -204,12 +204,12 @@ class CalendarViewController: UIViewController, JTCalendarDelegate, UIViewContro
         }
     }
     func calendarDidLoadNextPage(_ calendar: JTCalendarManager!) {
-         querieDay = calendar.date()
-        //print("New Date : \(String(describing: newDate))")
+        querieDay = calendar.date()
         reload()
     }
     func calendarDidLoadPreviousPage(_ calendar: JTCalendarManager!) {
-        
+        querieDay = calendar.date()
+        reload()
     }
     
     func haveAnEvent(querieDate: Date) -> Bool{
@@ -227,9 +227,11 @@ class CalendarViewController: UIViewController, JTCalendarDelegate, UIViewContro
     }
     
     @IBAction func refreshButtonTapped(_ sender: Any) {
-        
+        reload()
     }
     @IBAction func addNewButtonTapped(_ sender: Any) {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ReservationViewController")
+        self.present(vc!, animated: true, completion: nil)
     }
     
     //MenuViewPresentation
@@ -254,10 +256,12 @@ class CalendarViewController: UIViewController, JTCalendarDelegate, UIViewContro
     
     //Delegate Methods of MenuViewControllerDelegate
     func showLogout(){
-        
+        SessionManager.current.userLoggedIn = false
+        showChooseRestaurant()
     }
     func showAnalysis() {
-        
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "AnalyticsVC") as! AnalyticsViewController
+        self.navigationController?.setViewControllers([vc], animated: false)
     }
     func showDashBoard() {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "DashboardVC") as! DashboardViewController
@@ -267,9 +271,13 @@ class CalendarViewController: UIViewController, JTCalendarDelegate, UIViewContro
         
     }
     func showWaitingList() {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "WitingListVC") as! WitingListViewController
+        self.navigationController?.setViewControllers([vc], animated: false)
         
     }
     func showCalenderView() {
+        //let vc = self.storyboard?.instantiateViewController(withIdentifier: "CalendarVC") as! CalendarViewController
+        //self.navigationController?.setViewControllers([vc], animated: false)
         
     }
     func showChooseRestaurant() {
@@ -341,9 +349,7 @@ class CalendarViewController: UIViewController, JTCalendarDelegate, UIViewContro
                 let arrayDict = [bookingInfo]
                 bookingDict[keyString] = arrayDict
             }
-            print(bookingDict.count)
         }
-        print(bookingDict.count)
     }
 
 

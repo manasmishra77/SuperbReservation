@@ -10,6 +10,11 @@
 		2944CE1C1EB5A6A1003B9C0A /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2944CE1B1EB5A6A1003B9C0A /* SignInViewController.swift */; };
 		2944CE1F1EB634A4003B9C0A /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2944CE1E1EB634A4003B9C0A /* SessionManager.swift */; };
 		298228501EC4640100ACFEB2 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2982284F1EC4640100ACFEB2 /* CalendarViewController.swift */; };
+		29AA7D8C1EC82EAE006FF86B /* WitingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29AA7D8B1EC82EAE006FF86B /* WitingListViewController.swift */; };
+		29AA7D8E1EC82EC4006FF86B /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29AA7D8D1EC82EC4006FF86B /* AnalyticsViewController.swift */; };
+		29AA7D901EC83E5E006FF86B /* ReservationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29AA7D8F1EC83E5E006FF86B /* ReservationViewController.swift */; };
+		29AA7D931EC8761C006FF86B /* WaitingListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29AA7D921EC8761C006FF86B /* WaitingListTableViewCell.swift */; };
+		29AA7D951EC87645006FF86B /* AnalyticsWeeklyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29AA7D941EC87645006FF86B /* AnalyticsWeeklyTableViewCell.swift */; };
 		29B628301EB0767700468F43 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B6282F1EB0767700468F43 /* AppDelegate.swift */; };
 		29B628321EB0767700468F43 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B628311EB0767700468F43 /* ViewController.swift */; };
 		29B628351EB0767700468F43 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 29B628331EB0767700468F43 /* Main.storyboard */; };
@@ -52,6 +57,11 @@
 		2944CE1B1EB5A6A1003B9C0A /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		2944CE1E1EB634A4003B9C0A /* SessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		2982284F1EC4640100ACFEB2 /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
+		29AA7D8B1EC82EAE006FF86B /* WitingListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WitingListViewController.swift; sourceTree = "<group>"; };
+		29AA7D8D1EC82EC4006FF86B /* AnalyticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsViewController.swift; sourceTree = "<group>"; };
+		29AA7D8F1EC83E5E006FF86B /* ReservationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReservationViewController.swift; sourceTree = "<group>"; };
+		29AA7D921EC8761C006FF86B /* WaitingListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaitingListTableViewCell.swift; sourceTree = "<group>"; };
+		29AA7D941EC87645006FF86B /* AnalyticsWeeklyTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsWeeklyTableViewCell.swift; sourceTree = "<group>"; };
 		29B6282C1EB0767700468F43 /* SuperBSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SuperBSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		29B6282F1EB0767700468F43 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		29B628311EB0767700468F43 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -143,6 +153,9 @@
 				29B628681EB07DD800468F43 /* MenuViewController.swift */,
 				29D3FA051EB711C90086FA02 /* DashboardViewController.swift */,
 				2982284F1EC4640100ACFEB2 /* CalendarViewController.swift */,
+				29AA7D8B1EC82EAE006FF86B /* WitingListViewController.swift */,
+				29AA7D8D1EC82EC4006FF86B /* AnalyticsViewController.swift */,
+				29AA7D8F1EC83E5E006FF86B /* ReservationViewController.swift */,
 				29B628611EB07D1100468F43 /* Utilities */,
 				29B628601EB07CFE00468F43 /* View */,
 				29B6285D1EB07CD800468F43 /* Model */,
@@ -187,6 +200,8 @@
 			children = (
 				29B6286A1EB07DE500468F43 /* MenuTableViewCell.swift */,
 				29CD79881EC0426D00B8C629 /* DashboardTableViewCell.swift */,
+				29AA7D921EC8761C006FF86B /* WaitingListTableViewCell.swift */,
+				29AA7D941EC87645006FF86B /* AnalyticsWeeklyTableViewCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -515,11 +530,16 @@
 				29B628691EB07DD800468F43 /* MenuViewController.swift in Sources */,
 				2944CE1F1EB634A4003B9C0A /* SessionManager.swift in Sources */,
 				29B6286B1EB07DE500468F43 /* MenuTableViewCell.swift in Sources */,
+				29AA7D901EC83E5E006FF86B /* ReservationViewController.swift in Sources */,
 				29B628321EB0767700468F43 /* ViewController.swift in Sources */,
 				2944CE1C1EB5A6A1003B9C0A /* SignInViewController.swift in Sources */,
 				29B628631EB07D4B00468F43 /* ConnectionManager.swift in Sources */,
 				29D3FA061EB711C90086FA02 /* DashboardViewController.swift in Sources */,
+				29AA7D8E1EC82EC4006FF86B /* AnalyticsViewController.swift in Sources */,
+				29AA7D931EC8761C006FF86B /* WaitingListTableViewCell.swift in Sources */,
+				29AA7D951EC87645006FF86B /* AnalyticsWeeklyTableViewCell.swift in Sources */,
 				29B628651EB07D6A00468F43 /* Utilities.swift in Sources */,
+				29AA7D8C1EC82EAE006FF86B /* WitingListViewController.swift in Sources */,
 				29CD79891EC0426D00B8C629 /* DashboardTableViewCell.swift in Sources */,
 				29B628301EB0767700468F43 /* AppDelegate.swift in Sources */,
 			);

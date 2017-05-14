@@ -9,6 +9,8 @@ target 'SuperBSwift' do
  pod 'JTCalendar', '~> 2.0'
  pod 'MBProgressHUD', '~> 1.0.0'
  pod 'SDWebImage'
+pod 'BEMCheckBox'
+pod 'DropDown'
 
   target 'SuperBSwiftTests' do
     inherit! :search_paths

@@ -4,6 +4,16 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>BEMCheckBox.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>DropDown.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>JTCalendar.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -42,12 +52,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>0EA097ECECDEE1CA01E3C7121805BA7C</key>
+		<key>1080CC7405A9791DC9CA3C62B6D93B5F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>41FA54D12162DAD51D02FC58A2CD5034</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>5168099F2EBFC99A707C03C9EADE01A5</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -62,7 +77,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C56A2D1C06F422604962BE257E17D834</key>
+		<key>9EB4A26844B982472D1ABFD402614EF0</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>BC19A72FB7D1DB0B2CC5F6C5CF2400F4</key>
 		<dict>
 			<key>primary</key>
 			<true/>

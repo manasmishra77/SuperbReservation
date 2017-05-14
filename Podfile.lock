@@ -1,4 +1,6 @@
 PODS:
+  - BEMCheckBox (1.4.0)
+  - DropDown (2)
   - JTCalendar (2.1.9)
   - MBProgressHUD (1.0.0)
   - SDWebImage (3.8.2):
@@ -6,15 +8,19 @@ PODS:
   - SDWebImage/Core (3.8.2)
 
 DEPENDENCIES:
+  - BEMCheckBox
+  - DropDown
   - JTCalendar (~> 2.0)
   - MBProgressHUD (~> 1.0.0)
   - SDWebImage
 
 SPEC CHECKSUMS:
+  BEMCheckBox: e18e4a148905b290bd03d98b767651c104f4eda3
+  DropDown: 744784d9c9aa505100e942c16acd05430cbb2f0a
   JTCalendar: beb2f4c1b639bf6880f680b4858227acf83a049c
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
 
-PODFILE CHECKSUM: c451f9002813bbd73d400fb110462e87102c0110
+PODFILE CHECKSUM: d8d328be951c8ffca9d394415cc8a1dd1a9fd6fd
 
 COCOAPODS: 1.1.1

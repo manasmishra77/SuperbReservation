@@ -152,6 +152,11 @@ class DashboardViewController: UIViewController,UIViewControllerTransitioningDel
         return cell
         }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ReservationViewController") as! ReservationViewController
+        vc.navigationTitle.title = "Edit Reservation"
+        vc.bookingData = bookingArray[indexPath.row]
+        present(vc, animated: true, completion: nil)
 
     }
     //Adding swiping cell functionality
@@ -266,6 +271,12 @@ class DashboardViewController: UIViewController,UIViewControllerTransitioningDel
             
             bookingArray.append(booking)
         }
+    }
+    @IBAction func onAddNewButton(_ sender: Any) {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ReservationViewController") as! ReservationViewController
+        vc.navigationTitle.title = "New Reservation"
+        //vc.bookingData = bookingArray[indexPath.row]
+        present(vc, animated: true, completion: nil)
     }
     
 }

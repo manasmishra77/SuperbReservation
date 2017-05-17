@@ -18,6 +18,7 @@ class ConnectionManager: NSObject
         if parameter != nil{
             let parameterString = parameter?.stringFromHttpParameters()
             newUri = "\(uri)?\(parameterString!)"
+            print(newUri)
         }
         ConnectionManager.connect("GET", uri: newUri, showProgressView: showProgressView, completionHandler: completionHandler)
     }
@@ -47,11 +48,11 @@ class ConnectionManager: NSObject
             
             if (useToken)
             {
-                /*if let token = SAMKeychain.password(forService: "Nauroo", account: "Token") {
+                
+                if let token = UserDefaults.standard.string(forKey: "SignInToken"){
                     request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-                    print("Token123: \(token)")
                 }
-                */
+                
                 
             }
             else

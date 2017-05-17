@@ -80,6 +80,7 @@ class UserInfo: NSObject{
             self.restaurants = restaurants!
         }
     }
+    
 }
 class RestaurantInfo: NSObject{
     var name = ""

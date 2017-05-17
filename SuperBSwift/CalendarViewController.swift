@@ -111,6 +111,11 @@ class CalendarViewController: UIViewController, JTCalendarDelegate, UIViewContro
                             self.view.isUserInteractionEnabled = true
                         }
                     }
+                }else if status == 401{//token expired
+                    
+                    self.showLogout()
+                    
+                    
                 }else{
                     DispatchQueue.main.async {
                         let alert = Utilities.alertViewController(title: "Server Error", msg: "Try Again!!")
@@ -256,7 +261,7 @@ class CalendarViewController: UIViewController, JTCalendarDelegate, UIViewContro
     
     //Delegate Methods of MenuViewControllerDelegate
     func showLogout(){
-        SessionManager.current.userLoggedIn = false
+        UserDefaults.standard.set(false, forKey: "UserLoggedIn")
         showChooseRestaurant()
     }
     func showAnalysis() {

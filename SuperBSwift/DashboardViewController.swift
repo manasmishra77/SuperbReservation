@@ -108,6 +108,10 @@ class DashboardViewController: UIViewController,UIViewControllerTransitioningDel
                             self.view.isUserInteractionEnabled = true
                         }
                     }
+                }else if status == 401{//token expired
+                    
+                    self.showLogout()
+                    
                 }else{
                     DispatchQueue.main.async {
                         let alert = Utilities.alertViewController(title: "Server Error", msg: "Try Again!!")
@@ -195,7 +199,7 @@ class DashboardViewController: UIViewController,UIViewControllerTransitioningDel
     
     //Delegate Methods of MenuViewControllerDelegate
     func showLogout(){
-        SessionManager.current.userLoggedIn = false
+        UserDefaults.standard.set(false, forKey: "UserLoggedIn")
         showChooseRestaurant()
     }
     func showAnalysis() {
@@ -274,7 +278,7 @@ class DashboardViewController: UIViewController,UIViewControllerTransitioningDel
     }
     @IBAction func onAddNewButton(_ sender: Any) {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "ReservationViewController") as! ReservationViewController
-        vc.navigationTitle.title = "New Reservation"
+        //vc.navigationTitle.title = "New Reservation"
         //vc.bookingData = bookingArray[indexPath.row]
         present(vc, animated: true, completion: nil)
     }

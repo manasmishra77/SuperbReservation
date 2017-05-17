@@ -37,6 +37,7 @@ class ReservationViewController: UIViewController, BEMCheckBoxDelegate {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        initialSetting()
         
     }
 
@@ -48,11 +49,39 @@ class ReservationViewController: UIViewController, BEMCheckBoxDelegate {
     
     //Initial Setting or on edit button
     func initialSetting(){
-        bookingStatusDropDown.dataSource = ["cancelled", "checked in", "completed", "confirmed", "hold"]
-        peopleDropDown.dataSource = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"]
-        numberOfTable.dataSource = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"]
-        durationDropDown.dataSource = ["15 min", "30 min", "45 min", "60 min", "90 min", "120 min"]
-        timeingDropDown.dataSource = 
+        bookingStatusDropDown.dataSource = ["cancel", "no-show", "completed", "confirmed", "hold", "new", "left-message", "partially-arrived", "arrived", "partially-seated", "seated", ]
+        peopleDropDown.dataSource = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"]
+        numberOfTable.dataSource = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"]
+        durationDropDown.dataSource = ["15 min", "30 min", "45 min", "60 min", "90 min", "120 min", "150 min", "180 min", "210 min", "240 min", "270 min", "300 min"]
+        
+        let format = DateFormatter()
+        format.timeZone = TimeZone(abbreviation: "UTC")
+        format.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZ"
+        var today = format.string(from: Date())
+        if (bookingData != nil && bookingData?.arrivalTime != ""){
+            let time = (bookingData?.arrivalTime)!
+           today = time
+        }
+        print(today)
+        print(SessionManager.current.selectedRestaurant.id)
+        var parameter = [String: String]()
+        parameter["restaurant"] = SessionManager.current.selectedRestaurant.id
+        parameter["date"] = today
+        ConnectionManager.get("/availability/times", showProgressView: true, parameter: parameter as [String : AnyObject], completionHandler: {(status, response) in
+        
+            if status == 200{
+                if let responseArray = response as? [[String: Any]]{
+                    for each in responseArray{
+                        if let times = each["times"] as? [[String: Any]]{
+                            
+                        }
+                    }
+                }
+            }else if status == 401{//token expired
+                
+            }
+        
+        })
         
         
         if bookingData != nil{

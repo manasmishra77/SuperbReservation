@@ -91,10 +91,15 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
                             }                            
                             let userInfo = UserInfo(id: userInfoDict["id"] as? String, name: userInfoDict["name"] as? [String: String], email: userInfoDict["email"] as? String, zipCode: userInfoDict["zipCode"] as? String, mobile: (userInfoDict["mobile"] as? String)!, hasCard: userInfoDict["hasCard"] as? Bool, token: userInfoDict["token"] as? String, isNew: userInfoDict["isNew"] as? Bool, manager: userInfoDict["manager"] as? Bool, staff: userInfoDict["staff"] as? Bool, admin: userInfoDict["admin"] as? Bool,vip: userInfoDict["vip"] as? Bool, photoUrl: userInfoDict["photoUrl"] as? String, restaurants: restaurants)
                             let current = SessionManager.current
+                            
                             current.userInfo = userInfo
                             current.userLoggedIn = true
-                            //UserDefaults.standard.set(true, forKey: "UserLoggedIn")
-                            //UserDefaults.standard.set(userInfo, forKey: "UserInfo")
+                            UserDefaults.standard.set(true, forKey: "UserLoggedIn")
+                            
+                            let userInfoData = NSKeyedArchiver.archivedData(withRootObject: userInfoDict)
+                            UserDefaults.standard.set(userInfoData, forKey: "UserInfo")
+                            
+                            UserDefaults.standard.set(userInfo.token, forKey: "SignInToken")
                             DispatchQueue.main.async {
                                 self.navigationController?.popToRootViewController(animated: false)
                             }
@@ -107,7 +112,8 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
                                 self.view.isUserInteractionEnabled = true
                             }
                         }
-                    }else{
+                    }                    
+                    else{
                         DispatchQueue.main.async {
                             let alert = Utilities.alertViewController(title: "Server Error", msg: "Try Again!!")
                             self.present(alert, animated: true, completion: nil)

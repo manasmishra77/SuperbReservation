@@ -33,9 +33,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     //Login Check
     func loginCheckUp() {
-        //if let userLogIn = UserDefaults.standard.object(forKey: "UserLoggedIn") as? Bool{
-         if let userLogIn = SessionManager.current.userLoggedIn as? Bool{
+        if let userLogIn = UserDefaults.standard.object(forKey: "UserLoggedIn") as? Bool{
+         //if let userLogIn = SessionManager.current.userLoggedIn as? Bool{
+            
             if userLogIn{
+                startingTheSession()
                 self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
                 let userInfoDict = SessionManager.current.userInfo
                 if let userInfoDict = userInfoDict as? UserInfo{
@@ -82,6 +84,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         print(selectedRestaurant.id)
         SessionManager.current.selectedRestaurant = selectedRestaurant
         if selectedRestaurant.id != ""{
+            let selRestaurantId = NSKeyedArchiver.archivedData(withRootObject: selectedRestaurant.id)
+            UserDefaults.standard.setValue(selRestaurantId, forKey: "SelectedRestaurantId")
             //to Dashboard viewcontroller
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "DashboardVC") as! DashboardViewController
             vc.selectedRestaurant = selectedRestaurant
@@ -90,5 +94,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     }
 
+    func startingTheSession(){
+        
+        let userInfoDictData = UserDefaults.standard.data(forKey: "UserInfo")
+        let userInfoDict = NSKeyedUnarchiver.unarchiveObject(with: userInfoDictData!) as! Dictionary<String, Any>
+        var restaurants: [RestaurantInfo]? = [RestaurantInfo]()
+        if let restaurantArray = userInfoDict["restaurants"] as? [[String:Any]]{
+            for restaurant in restaurantArray{
+                let newRestaurant = RestaurantInfo(name: restaurant["name"] as? String, created: restaurant["created"] as? Date, id: restaurant["id"] as? String)
+                restaurants?.append(newRestaurant)
+            }
+        }
+        let userInfo = UserInfo(id: userInfoDict["id"] as? String, name: userInfoDict["name"] as? [String: String], email: userInfoDict["email"] as? String, zipCode: userInfoDict["zipCode"] as? String, mobile: (userInfoDict["mobile"] as? String)!, hasCard: userInfoDict["hasCard"] as? Bool, token: userInfoDict["token"] as? String, isNew: userInfoDict["isNew"] as? Bool, manager: userInfoDict["manager"] as? Bool, staff: userInfoDict["staff"] as? Bool, admin: userInfoDict["admin"] as? Bool,vip: userInfoDict["vip"] as? Bool, photoUrl: userInfoDict["photoUrl"] as? String, restaurants: restaurants)
+        
+        SessionManager.current.userInfo = userInfo
+    }
 }
 

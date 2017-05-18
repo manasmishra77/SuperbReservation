@@ -9,6 +9,12 @@
 import UIKit
 
 class AnalyticsWeeklyTableViewCell: UITableViewCell {
+    
+    
+    @IBOutlet weak var weekLabel: UILabel!
+    @IBOutlet weak var guestForWeek: UILabel!
+    @IBOutlet weak var reservationForWeek: UILabel!
+    @IBOutlet weak var waitingListForWeek: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()

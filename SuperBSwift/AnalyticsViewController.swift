@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AnalyticsViewController: UIViewController, UIViewControllerTransitioningDelegate, MenuViewControllerDelegate {
+class AnalyticsViewController: UIViewController, UIViewControllerTransitioningDelegate, MenuViewControllerDelegate, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var weekButton: UIButton!
     @IBOutlet weak var monthName: UILabel!
@@ -22,12 +22,15 @@ class AnalyticsViewController: UIViewController, UIViewControllerTransitioningDe
     
     var bookingArray = [ReservationInfo]()
     var bookingDict = [String: [ReservationInfo]]()
+    var bookingDictForWeek = [String: [ReservationInfo]]()
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        weekTableView.isHidden = true
+        refreshButtonTapped(true)
         
     }
 
@@ -36,8 +39,18 @@ class AnalyticsViewController: UIViewController, UIViewControllerTransitioningDe
         // Dispose of any resources that can be recreated.
     }
     @IBAction func weekOrMonthButtonTapped(_ sender: UIButton) {
+        if sender.tag == 101{//month button
+            weekTableView.isHidden = true
+            
+        }else{
+            weekTableView.isHidden = false
+            weekTableView.delegate = self
+            weekTableView.dataSource = self
+            weekTableView.reloadData()
+        }
         
     }
+    
     
     @IBAction func nextMonthButtonTapped(_ sender: Any) {
         querieDay = querieDay.addDays(daysToAdd: 30)
@@ -54,7 +67,19 @@ class AnalyticsViewController: UIViewController, UIViewControllerTransitioningDe
     }
     
     func reloadingViews(){
-        
+        var guests = 0
+        var reservations = 0
+        var waitingList = 0
+            for each in bookingArray{
+                guests = each.guests + guests
+                reservations = reservations + 1
+                if each.status == "waiting-list"{
+                    waitingList = waitingList + 1
+                }
+            }
+        guestCount.text = String(guests)
+        reservationCount.text = String(reservations)
+        waitingListCount.text = String(waitingList)
     }
     //MenuViewPresentation
     @IBAction func menuButtontapped(_ sender: Any) {
@@ -130,7 +155,7 @@ class AnalyticsViewController: UIViewController, UIViewControllerTransitioningDe
         
         let format = DateFormatter()
         format.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        format.timeZone = NSTimeZone(abbreviation: "UTC") as! TimeZone
+        format.timeZone = NSTimeZone(abbreviation: "UTC")! as TimeZone
         let calendar = NSCalendar(calendarIdentifier: .gregorian)
         var components = calendar?.components([.year, .month], from: querieDay)
         components?.hour = 0
@@ -170,6 +195,7 @@ class AnalyticsViewController: UIViewController, UIViewControllerTransitioningDe
                     if let responseArray = response as? [[String: AnyObject]]{
                         self.convertingToModel(arr: responseArray)
                         self.dateWiseArranging()
+                        self.weekWiseArranging()
                         DispatchQueue.main.async {
                             self.reloadingViews()
                         }
@@ -236,6 +262,185 @@ class AnalyticsViewController: UIViewController, UIViewControllerTransitioningDe
             }
         }
     }
+    func weekWiseArranging(){
+        let bookingDateKeys = Array(bookingDict.keys)
+        for eachDateString in bookingDateKeys{
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            let eachDate = dateFormatter.date(from: eachDateString)
+            let calendar = Calendar.current
+            let components = calendar.dateComponents([.year, .month], from: eachDate!)
+            let startOfTheMonth = calendar.date(from: components)
+            
+            let range = calendar.range(of: .day, in: .month, for: startOfTheMonth!)
+            let lastDays = range?.count
+            var lastDayString = "30th"
+            if lastDays == 31{
+                lastDayString = "31st"
+            }
+            if (eachDate?.isLessThanDate(dateToCompare: (startOfTheMonth?.addDays(daysToAdd: 7))!))!{
+                for each in bookingDict[eachDateString]!{
+                    if bookingDictForWeek["1st - 7th"] != nil{
+                        bookingDictForWeek["1st - 7th"]?.append(each)
+                    }else{
+                        let arraydict = [each]
+                        bookingDictForWeek["1st - 7th"] = arraydict
+                    }
+                }
+            }else if (eachDate?.isLessThanDate(dateToCompare: (startOfTheMonth?.addDays(daysToAdd: 14))!))!{
+                for each in bookingDict[eachDateString]!{
+                    if bookingDictForWeek["8th - 14th"] != nil{
+                        bookingDictForWeek["8th - 14th"]?.append(each)
+                    }else{
+                        let arraydict = [each]
+                        bookingDictForWeek["8th - 14th"] = arraydict
+                    }
+                }
+            }else if (eachDate?.isLessThanDate(dateToCompare: (startOfTheMonth?.addDays(daysToAdd: 21))!))!{
+                for each in bookingDict[eachDateString]!{
+                    if bookingDictForWeek["15th - 21st"] != nil{
+                        bookingDictForWeek["15th - 21st"]?.append(each)
+                    }else{
+                        let arraydict = [each]
+                        bookingDictForWeek["15th - 21st"] = arraydict
+                    }
+                }
+            }else if (eachDate?.isLessThanDate(dateToCompare: (startOfTheMonth?.addDays(daysToAdd: 28))!))!{
+                for each in bookingDict[eachDateString]!{
+                    if bookingDictForWeek["22nd - 28th"] != nil{
+                        bookingDictForWeek["22nd - 28th"]?.append(each)
+                    }else{
+                        let arraydict = [each]
+                        bookingDictForWeek["22nd - 28th"] = arraydict
+                    }
+                }
+            }else{
+                for each in bookingDict[eachDateString]!{
+                    if bookingDictForWeek["29th - \(lastDayString)"] != nil{
+                        bookingDictForWeek["29th - \(lastDayString)"]?.append(each)
+                    }else{
+                        let arraydict = [each]
+                        bookingDictForWeek["29th - \(lastDayString)"] = arraydict
+                    }
+                }
+            }
+        }
+        
+    }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return bookingDictForWeek.count
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "AnalyticsCell", for: indexPath) as! AnalyticsWeeklyTableViewCell
+        if indexPath.row == 0{
+            var guests = 0
+            var reservations = 0
+            var waitingList = 0
+            if let bookingDictArrayDayWise = bookingDictForWeek["1st - 7th"]{
+                for each in bookingDictArrayDayWise{
+                    guests = each.guests + guests
+                    reservations = reservations + 1
+                    if each.status == "waiting-list"{
+                        waitingList = waitingList + 1
+                    }
+                }
+            }
+            cell.weekLabel.text = "1st - 7th"
+            cell.guestForWeek.text = String(guests)
+            cell.reservationForWeek.text = String(reservations)
+            cell.waitingListForWeek.text = String(waitingList)
+        }else if indexPath.row == 1{
+            var guests = 0
+            var reservations = 0
+            var waitingList = 0
+            if let bookingDictArrayDayWise = bookingDictForWeek["8th - 14th"]{
+                for each in bookingDictArrayDayWise{
+                    guests = each.guests + guests
+                    reservations = reservations + 1
+                    if each.status == "waiting-list"{
+                        waitingList = waitingList + 1
+                    }
+                }
+            }
+            cell.weekLabel.text = "8th - 14th"
+            cell.guestForWeek.text = String(guests)
+            cell.reservationForWeek.text = String(reservations)
+            cell.waitingListForWeek.text = String(waitingList)
+        }else if indexPath.row == 2{
+            var guests = 0
+            var reservations = 0
+            var waitingList = 0
+            if let bookingDictArrayDayWise = bookingDictForWeek["15th - 21st"]{
+                for each in bookingDictArrayDayWise{
+                    guests = each.guests + guests
+                    reservations = reservations + 1
+                    if each.status == "waiting-list"{
+                        waitingList = waitingList + 1
+                    }
+                }
+            }
+            cell.weekLabel.text = "15th - 21st"
+            cell.guestForWeek.text = String(guests)
+            cell.reservationForWeek.text = String(reservations)
+            cell.waitingListForWeek.text = String(waitingList)
+        }else if indexPath.row == 3{
+            var guests = 0
+            var reservations = 0
+            var waitingList = 0
+            if let bookingDictArrayDayWise = bookingDictForWeek["22nd - 28th"]{
+                for each in bookingDictArrayDayWise{
+                    guests = each.guests + guests
+                    reservations = reservations + 1
+                    if each.status == "waiting-list"{
+                        waitingList = waitingList + 1
+                    }
+                }
+            }
+            cell.weekLabel.text = "22nd - 28th"
+            cell.guestForWeek.text = String(guests)
+            cell.reservationForWeek.text = String(reservations)
+            cell.waitingListForWeek.text = String(waitingList)
+        }else if indexPath.row == 4{
+            let bookingDateKeys = Array(bookingDict.keys)
+            let lastString = bookingDateKeys.last
+            var guests = 0
+            var reservations = 0
+            var waitingList = 0
+            if let bookingDictArrayDayWise = bookingDictForWeek[lastString!]{
+                for each in bookingDictArrayDayWise{
+                    guests = each.guests + guests
+                    reservations = reservations + 1
+                    if each.status == "waiting-list"{
+                        waitingList = waitingList + 1
+                    }
+                }
+            }
+            cell.weekLabel.text = lastString
+            cell.guestForWeek.text = String(guests)
+            cell.reservationForWeek.text = String(reservations)
+            cell.waitingListForWeek.text = String(waitingList)
+
+        }
+        return cell
+    }
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

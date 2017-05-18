@@ -109,9 +109,9 @@ class DashboardViewController: UIViewController,UIViewControllerTransitioningDel
                         }
                     }
                 }else if status == 401{//token expired
-                    
-                    self.showLogout()
-                    
+                    DispatchQueue.main.async {
+                        self.showLogout()
+                    }
                 }else{
                     DispatchQueue.main.async {
                         let alert = Utilities.alertViewController(title: "Server Error", msg: "Try Again!!")

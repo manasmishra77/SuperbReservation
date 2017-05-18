@@ -34,6 +34,10 @@ class ConnectionManager: NSObject
         ConnectionManager.connect("DELETE", uri: uri, body: body, useToken: useToken, completionHandler: completionHandler)
         
     }
+    class func put(_ uri: String, body: AnyObject, useToken: Bool = false, showProgressView: Bool = false, completionHandler: @escaping (_ code: Int, _ response: AnyObject) -> ())
+    {
+        ConnectionManager.connect("PUT", uri: uri, body: body, useToken: useToken, showProgressView: showProgressView, completionHandler: completionHandler)
+    }
     
     class func connect(_ method: String, uri: String, body: AnyObject? = nil, useToken: Bool = true, showProgressView: Bool = false, completionHandler: @escaping (_ code: Int, _ response: AnyObject) -> ())
     {
@@ -50,6 +54,7 @@ class ConnectionManager: NSObject
             {
                 
                 if let token = UserDefaults.standard.string(forKey: "SignInToken"){
+                    //print(token)
                     request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
                 }
                 

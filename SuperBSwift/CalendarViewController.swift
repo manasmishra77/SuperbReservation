@@ -113,7 +113,9 @@ class CalendarViewController: UIViewController, JTCalendarDelegate, UIViewContro
                     }
                 }else if status == 401{//token expired
                     
-                    self.showLogout()
+                    DispatchQueue.main.async {
+                        self.showLogout()
+                    }
                     
                     
                 }else{

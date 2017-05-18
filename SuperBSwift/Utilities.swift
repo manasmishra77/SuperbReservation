@@ -301,6 +301,14 @@ extension Date {
         //Return Result
         return dateWithHoursAdded
     }
+    func addMinutes(minutesToAdd: Int) -> Date {
+        let secondsInHours: TimeInterval = Double(minutesToAdd) * 60
+        let dateWithHoursAdded: Date = self.addingTimeInterval(secondsInHours)
+        
+        //Return Result
+        return dateWithHoursAdded
+    }
+
     
 }
 extension UITableView {

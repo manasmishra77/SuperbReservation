@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "SuperBSwift/ReservationViewController.swift"
-            timestampString = "516733309.311737"
+            filePath = "SuperBSwift/ConnectionManager.swift"
+            timestampString = "516782284.72257"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "40"
-            endingLineNumber = "40"
-            landmarkName = "viewDidLoad()"
+            startingLineNumber = "21"
+            endingLineNumber = "21"
+            landmarkName = "get(_:showProgressView:parameter:completionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

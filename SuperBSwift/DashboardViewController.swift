@@ -11,6 +11,7 @@ import UIKit
 class DashboardViewController: UIViewController,UIViewControllerTransitioningDelegate, MenuViewControllerDelegate, UITableViewDelegate, UITableViewDataSource {
     
     
+    @IBOutlet weak var moreTableView: UITableView!
     @IBOutlet weak var headingDateLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     
@@ -18,6 +19,8 @@ class DashboardViewController: UIViewController,UIViewControllerTransitioningDel
     var refreshControl = UIRefreshControl()
     var querieDay = Date()
     var bookingArray = [ReservationInfo]()
+    var selectedIndex: Int?
+    var moreTableArray = [String]()
 
     @IBOutlet weak var menuButton: UIBarButtonItem!
     override func viewDidLoad() {
@@ -34,6 +37,7 @@ class DashboardViewController: UIViewController,UIViewControllerTransitioningDel
         format.dateFormat =  "EEEE d'th' LLLL"
         let today = format.string(from: querieDay)
         headingDateLabel.text = today
+        moreTableView.isHidden = true
         
     }
 
@@ -126,10 +130,21 @@ class DashboardViewController: UIViewController,UIViewControllerTransitioningDel
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(bookingArray.count)
+        if tableView.tag == 101{
+            return moreTableArray.count
+        }
+        
+        //print(bookingArray.count)
         return bookingArray.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        //More Table view cell
+        if tableView.tag == 101{
+            let moreCell = tableView.dequeueReusableCell(withIdentifier: "MoreCell", for: indexPath)
+            moreCell.textLabel = moreTableArray[indexPath.row]
+            return moreCell
+        }
+        //Dashboard cell
         let cell = tableView.dequeueReusableCell(withIdentifier: "DashboardTableCell", for: indexPath) as! DashboardTableViewCell
         let bookingDict = bookingArray[indexPath.row]
         cell.nameLabel.text = "\(String(describing: bookingDict.user.name["first"]!)) \(String(describing: bookingDict.user.name["last"]!))"
@@ -157,24 +172,97 @@ class DashboardViewController: UIViewController,UIViewControllerTransitioningDel
         }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        if tableView.tag == 101{
+            let selectedStatus = moreTableArray[indexPath.row]
+            if selectedStatus == "Dismiss"{
+                tableView.isHidden = true
+                return
+            }
+            var parameter = [String: String]()
+            parameter["status"] = selectedStatus
+            let bookingInfo = self.bookingArray[selectedIndex!]
+            let urlString = "/booking/\(bookingInfo.bookingId)"
+            ConnectionManager.put(urlString, body: parameter, useToken: true, showProgressView: true, completionHandler: {(status, response) in
+                if status == 200{
+                    self.bookingArray[selectedIndex!].status = selectedStatus
+                    DispatchQueue.main.async {
+                        self.moreTableView.isHidden = true
+                        self.tableView.reloadData()
+                    }
+                    
+                }
+                selectedIndex = nil
+            })
+            
+        }else{
+        
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "ReservationViewController") as! ReservationViewController
         vc.navigationTitle.title = "Edit Reservation"
         vc.bookingData = bookingArray[indexPath.row]
         present(vc, animated: true, completion: nil)
+        }
+        
 
     }
     //Adding swiping cell functionality
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let checkedIn = UITableViewRowAction(style: .normal, title: "Checked in") { action, index in
-
-        }
-        checkedIn.backgroundColor = UIColor.green
-        
+        selectedIndex = indexPath.row
         let cancelled = UITableViewRowAction(style: .normal, title: "Cancelled") { action, index in
+            let selectedStatus = "cancel"
+            var parameter = [String: String]()
+            parameter["status"] = selectedStatus
+            let bookingInfo = self.bookingArray[selectedIndex!]
+            let urlString = "/booking/\(bookingInfo.bookingId)"
+            ConnectionManager.put(urlString, body: parameter, useToken: true, showProgressView: true, completionHandler: {(status, response) in
+                if status == 200{
+                    self.bookingArray.remove(at: selectedIndex!)
+                DispatchQueue.main.async {
+                        self.moreTableView.isHidden = true
+                        self.tableView.reloadData()
+                    }
+
+                }
+                selectedIndex = nil
+            })
+
         }
         cancelled.backgroundColor = UIColor.red
         
-        return [checkedIn, cancelled]
+        let more = UITableViewRowAction(style: .normal, title: "More") { action, index in
+            
+            let bookingDict = bookingArray[indexPath.row]
+            self.bookingInfo = bookingDict
+            self.moreTableArray.removeAll()
+            if bookingDict.status == "hold"{
+                
+                self.moreTableArray = ["confirmed", "left-message", "partially-arrived", "arrived", "partially-seated", "seated", "Dismiss"]
+            }else if bookingDict.status == "new"{
+                self.moreTableArray = ["confirmed", "left-message", "partially-arrived", "arrived", "partially-seated", "seated", "completed", "no-show", "Dismiss"]
+            }else if bookingDict.status == "confirmed"{
+                self.moreTableArray = [ "left-message", "partially-arrived", "arrived", "partially-seated", "seated", "completed", "no-show", "Dismiss"]
+            }else if bookingDict.status == "left-message"{
+                self.moreTableArray = [ "confirmed", "partially-arrived", "arrived", "partially-seated", "seated", "completed", "no-show", "Dismiss"]
+            }
+            else if bookingDict.status == "partially-arrived"{
+                self.moreTableArray = [ "arrived", "partially-seated", "seated", "completed", "no-show", "Dismiss"]
+            }else if bookingDict.status == "arrived"{
+                self.moreTableArray = [ "partially-seated", "seated", "completed", "no-show", "Dismiss"]
+            }else if bookingDict.status == "partially-seated"{
+                self.moreTableArray = [ "seated", "completed", "no-show", "Dismiss"]
+            }else if bookingDict.status == "seated"{
+                self.moreTableArray = [ "completed", "no-show", "Dismiss"]
+            }
+            if self.moreTableArray.count > 1{
+                self.moreTableView.isHidden = false
+                self.moreTableView.delegate = self
+                self.moreTableView.dataSource = self
+                self.moreTableView.reloadData()
+            }
+            
+        }
+        more.backgroundColor = UIColor.blue
+        
+        return [cancelled, more]
     }
     
     

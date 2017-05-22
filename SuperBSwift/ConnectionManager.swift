@@ -54,7 +54,7 @@ class ConnectionManager: NSObject
             {
                 
                 if let token = UserDefaults.standard.string(forKey: "SignInToken"){
-                    //print(token)
+                    print(token)
                     request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
                 }
                 

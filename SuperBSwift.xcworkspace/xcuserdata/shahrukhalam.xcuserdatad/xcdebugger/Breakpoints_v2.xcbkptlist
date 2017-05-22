@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   type = "0"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SuperBSwift/CalendarViewController.swift"
+            timestampString = "516961453.261981"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
+            landmarkName = "getBookings()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SuperBSwift/CalendarViewController.swift"
+            timestampString = "516961466.703792"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "93"
+            endingLineNumber = "93"
+            landmarkName = "getBookings()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SuperBSwift.CalendarViewController.getBookings () -&gt; ()"
+                  moduleName = "SuperBSwift"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/shahrukhalam/Desktop/Manas%5C/MySuperB/SuperBSwift/CalendarViewController.swift"
+                  timestampString = "516961466.708084"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "93"
+                  endingLineNumber = "93"
+                  offsetFromSymbolStart = "6098">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SuperBSwift.CalendarViewController.(getBookings () -&gt; ()).(closure #1)"
+                  moduleName = "SuperBSwift"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/shahrukhalam/Desktop/Manas%5C/MySuperB/SuperBSwift/CalendarViewController.swift"
+                  timestampString = "516961466.711777"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "94"
+                  endingLineNumber = "94"
+                  offsetFromSymbolStart = "23">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SuperBSwift/CalendarViewController.swift"
+            timestampString = "516961482.984991"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "94"
+            endingLineNumber = "94"
+            landmarkName = "getBookings()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SuperBSwift/ConnectionManager.swift"
+            timestampString = "516961540.0382"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "114"
+            endingLineNumber = "114"
+            landmarkName = "connect(_:uri:body:useToken:showProgressView:completionHandler:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static SuperBSwift.ConnectionManager.connect (Swift.String, uri : Swift.String, body : Swift.Optional&lt;Swift.AnyObject&gt;, useToken : Swift.Bool, showProgressView : Swift.Bool, completionHandler : (Swift.Int, Swift.AnyObject) -&gt; ()) -&gt; ()"
+                  moduleName = "SuperBSwift"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/shahrukhalam/Desktop/Manas%5C/MySuperB/SuperBSwift/ConnectionManager.swift"
+                  timestampString = "516961540.251213"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "114"
+                  endingLineNumber = "114"
+                  offsetFromSymbolStart = "4455">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static SuperBSwift.ConnectionManager.(connect (Swift.String, uri : Swift.String, body : Swift.Optional&lt;Swift.AnyObject&gt;, useToken : Swift.Bool, showProgressView : Swift.Bool, completionHandler : (Swift.Int, Swift.AnyObject) -&gt; ()) -&gt; ()).(closure #2)"
+                  moduleName = "SuperBSwift"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/shahrukhalam/Desktop/Manas%5C/MySuperB/SuperBSwift/ConnectionManager.swift"
+                  timestampString = "516961540.254581"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "116"
+                  endingLineNumber = "116"
+                  offsetFromSymbolStart = "53">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SuperBSwift/ConnectionManager.swift"
+            timestampString = "516961574.421081"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "116"
+            endingLineNumber = "116"
+            landmarkName = "connect(_:uri:body:useToken:showProgressView:completionHandler:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static SuperBSwift.ConnectionManager.(connect (Swift.String, uri : Swift.String, body : Swift.Optional&lt;Swift.AnyObject&gt;, useToken : Swift.Bool, showProgressView : Swift.Bool, completionHandler : (Swift.Int, Swift.AnyObject) -&gt; ()) -&gt; ()).(closure #2)"
+                  moduleName = "SuperBSwift"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/shahrukhalam/Desktop/Manas%5C/MySuperB/SuperBSwift/ConnectionManager.swift"
+                  timestampString = "516961579.19205"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "116"
+                  endingLineNumber = "116"
+                  offsetFromSymbolStart = "53">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static SuperBSwift.ConnectionManager.(connect (Swift.String, uri : Swift.String, body : Swift.Optional&lt;Swift.AnyObject&gt;, useToken : Swift.Bool, showProgressView : Swift.Bool, completionHandler : (Swift.Int, Swift.AnyObject) -&gt; ()) -&gt; ()).(closure #2)"
+                  moduleName = "SuperBSwift"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/shahrukhalam/Desktop/Manas%5C/MySuperB/SuperBSwift/ConnectionManager.swift"
+                  timestampString = "516961579.200334"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "116"
+                  endingLineNumber = "116"
+                  offsetFromSymbolStart = "289">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SuperBSwift/ConnectionManager.swift"
+            timestampString = "516961731.834367"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
+            landmarkName = "connect(_:uri:body:useToken:showProgressView:completionHandler:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

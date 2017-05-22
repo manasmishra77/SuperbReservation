@@ -74,11 +74,16 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
             view.isUserInteractionEnabled = false
             let loginBody = ["username": userNameTF.text, "password": passwordTF.text]
             ConnectionManager.post("/signin", body: loginBody as AnyObject, useToken: false, showProgressView: true, completionHandler: {(status, response) in
+                DispatchQueue.main.async {
+                    self.view.isUserInteractionEnabled = true
+                }
                 
-                self.view.isUserInteractionEnabled = true
                 if status == 500{
-                    let alert = Utilities.alertViewController(title: "Network Error", msg: "Try Again!!")
-                    self.present(alert, animated: true, completion: nil)
+                    DispatchQueue.main.async {
+                        let alert = Utilities.alertViewController(title: "Network Error", msg: "Try Again!!")
+                        self.present(alert, animated: true, completion: nil)
+                    }
+                    
                 }else{
                     if status == 200{
                         if let userInfoDict =  response as? Dictionary<String, Any>{

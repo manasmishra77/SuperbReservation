@@ -141,7 +141,7 @@ class DashboardViewController: UIViewController,UIViewControllerTransitioningDel
         //More Table view cell
         if tableView.tag == 101{
             let moreCell = tableView.dequeueReusableCell(withIdentifier: "MoreCell", for: indexPath)
-            moreCell.textLabel = moreTableArray[indexPath.row]
+            moreCell.textLabel?.text = moreTableArray[indexPath.row]
             return moreCell
         }
         //Dashboard cell
@@ -182,16 +182,16 @@ class DashboardViewController: UIViewController,UIViewControllerTransitioningDel
             parameter["status"] = selectedStatus
             let bookingInfo = self.bookingArray[selectedIndex!]
             let urlString = "/booking/\(bookingInfo.bookingId)"
-            ConnectionManager.put(urlString, body: parameter, useToken: true, showProgressView: true, completionHandler: {(status, response) in
+            ConnectionManager.put(urlString, body: parameter as AnyObject, useToken: true, showProgressView: true, completionHandler: {(status, response) in
                 if status == 200{
-                    self.bookingArray[selectedIndex!].status = selectedStatus
+                    self.bookingArray[self.selectedIndex!].status = selectedStatus
                     DispatchQueue.main.async {
                         self.moreTableView.isHidden = true
                         self.tableView.reloadData()
                     }
                     
                 }
-                selectedIndex = nil
+                self.selectedIndex = nil
             })
             
         }else{
@@ -211,18 +211,18 @@ class DashboardViewController: UIViewController,UIViewControllerTransitioningDel
             let selectedStatus = "cancel"
             var parameter = [String: String]()
             parameter["status"] = selectedStatus
-            let bookingInfo = self.bookingArray[selectedIndex!]
+            let bookingInfo = self.bookingArray[self.selectedIndex!]
             let urlString = "/booking/\(bookingInfo.bookingId)"
-            ConnectionManager.put(urlString, body: parameter, useToken: true, showProgressView: true, completionHandler: {(status, response) in
+            ConnectionManager.put(urlString, body: parameter as AnyObject, useToken: true, showProgressView: true, completionHandler: {(status, response) in
                 if status == 200{
-                    self.bookingArray.remove(at: selectedIndex!)
+                    self.bookingArray.remove(at: self.selectedIndex!)
                 DispatchQueue.main.async {
                         self.moreTableView.isHidden = true
                         self.tableView.reloadData()
                     }
 
                 }
-                selectedIndex = nil
+                self.selectedIndex = nil
             })
 
         }
@@ -230,8 +230,7 @@ class DashboardViewController: UIViewController,UIViewControllerTransitioningDel
         
         let more = UITableViewRowAction(style: .normal, title: "More") { action, index in
             
-            let bookingDict = bookingArray[indexPath.row]
-            self.bookingInfo = bookingDict
+            let bookingDict = self.bookingArray[indexPath.row]
             self.moreTableArray.removeAll()
             if bookingDict.status == "hold"{
                 

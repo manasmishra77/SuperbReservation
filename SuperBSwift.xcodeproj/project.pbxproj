@@ -32,6 +32,7 @@
 		29D89F2B1EC301D000BD118A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 29D89F2A1EC301D000BD118A /* Assets.xcassets */; };
 		44229729ADA6C2C36E480E60 /* Pods_SuperBSwiftTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A689E7B2B401818B655F387 /* Pods_SuperBSwiftTests.framework */; };
 		9DA4B6A6D94B0ABC78EBAD6F /* Pods_SuperBSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D2C579D13F7D3104C3D95BB /* Pods_SuperBSwift.framework */; };
+		B67486801ED3706700C28242 /* MoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B674867F1ED3706700C28242 /* MoreTableViewCell.swift */; };
 		E3EFDC4A08C0D6147A6F8DC7 /* Pods_SuperBSwiftUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 705621B37F3A1587ABCA146A /* Pods_SuperBSwiftUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -89,6 +90,7 @@
 		8A689E7B2B401818B655F387 /* Pods_SuperBSwiftTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SuperBSwiftTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D2C579D13F7D3104C3D95BB /* Pods_SuperBSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SuperBSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B038C50092D8350DE89C2963 /* Pods-SuperBSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SuperBSwift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SuperBSwift/Pods-SuperBSwift.debug.xcconfig"; sourceTree = "<group>"; };
+		B674867F1ED3706700C28242 /* MoreTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreTableViewCell.swift; sourceTree = "<group>"; };
 		D36AA1846168DF6FFEC90BFB /* Pods-SuperBSwiftUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SuperBSwiftUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SuperBSwiftUITests/Pods-SuperBSwiftUITests.release.xcconfig"; sourceTree = "<group>"; };
 		EAE1BF95575C3312C011C6F4 /* Pods-SuperBSwiftTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SuperBSwiftTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SuperBSwiftTests/Pods-SuperBSwiftTests.release.xcconfig"; sourceTree = "<group>"; };
 		F6BD97BF0F7EC57783E54EE5 /* Pods-SuperBSwiftTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SuperBSwiftTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SuperBSwiftTests/Pods-SuperBSwiftTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -202,6 +204,7 @@
 				29CD79881EC0426D00B8C629 /* DashboardTableViewCell.swift */,
 				29AA7D921EC8761C006FF86B /* WaitingListTableViewCell.swift */,
 				29AA7D941EC87645006FF86B /* AnalyticsWeeklyTableViewCell.swift */,
+				B674867F1ED3706700C28242 /* MoreTableViewCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -541,6 +544,7 @@
 				29B628651EB07D6A00468F43 /* Utilities.swift in Sources */,
 				29AA7D8C1EC82EAE006FF86B /* WitingListViewController.swift in Sources */,
 				29CD79891EC0426D00B8C629 /* DashboardTableViewCell.swift in Sources */,
+				B67486801ED3706700C28242 /* MoreTableViewCell.swift in Sources */,
 				29B628301EB0767700468F43 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

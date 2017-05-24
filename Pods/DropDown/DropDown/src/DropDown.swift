@@ -889,6 +889,7 @@ extension DropDown {
 extension DropDown: UITableViewDataSource, UITableViewDelegate {
 
 	public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print(dataSource)
 		return dataSource.count
 	}
 

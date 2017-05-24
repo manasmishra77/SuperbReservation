@@ -41,7 +41,8 @@ class ConnectionManager: NSObject
     
     class func connect(_ method: String, uri: String, body: AnyObject? = nil, useToken: Bool = true, showProgressView: Bool = false, completionHandler: @escaping (_ code: Int, _ response: AnyObject) -> ())
     {
-        //print(body)
+        print("uri \(uri)")
+        print(body)
         
         let uriFull = "\(apiURI)\(uri)"
         
@@ -118,6 +119,10 @@ class ConnectionManager: NSObject
                     if (response.statusCode == 500)
                     {
                         completionHandler(response.statusCode, "" as AnyObject)
+                        DispatchQueue.main.async {
+                            MBProgressHUD.hideAllHUDs(for: appDel.window!, animated: true)
+                        }
+                    
                         return
                     }
                     

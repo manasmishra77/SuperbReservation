@@ -23,21 +23,30 @@ class ReservationViewController: UIViewController, BEMCheckBoxDelegate, UITextFi
     @IBOutlet weak var navigationTitle: UINavigationItem!
     @IBOutlet weak var mailId: UITextField!
     @IBOutlet weak var notes: UITextView!
-    @IBOutlet weak var bookingStatusDropDown: DropDown!
-    @IBOutlet weak var peopleDropDown: DropDown!
-    @IBOutlet weak var numberOfTable: DropDown!
-    @IBOutlet weak var timeingDropDown: DropDown!
-    @IBOutlet weak var durationDropDown: DropDown!
-    @IBOutlet weak var bookingType: DropDown!
+    @IBOutlet weak var bookingStatusDropDown: UIButton!
+    @IBOutlet weak var peopleDropDown: UIButton!
+    @IBOutlet weak var numberOfTable: UIButton!
+    @IBOutlet weak var timeingDropDown: UIButton!
+    @IBOutlet weak var durationDropDown: UIButton!
+    @IBOutlet weak var bookingType: UIButton!
     @IBOutlet weak var emailConfirmation: BEMCheckBox!
     @IBOutlet weak var smsConfirmation: BEMCheckBox!
     @IBOutlet weak var manualPayment: BEMCheckBox!
+    
     
     var bookingData: ReservationInfo?
     var availableTimesArray = [String:Date]()
     var bookingTypeArray = [String]()
     var tablesArray = [String : String]()
     var groupCheckBox: BEMCheckBoxGroup?
+    
+    let bookingStatusDropDownVar = DropDown()
+    let peopleDropDownVar = DropDown()
+    let numberOfTableVar = DropDown()
+    let timeingDropDownVar = DropDown()
+    let durationDropDownVar = DropDown()
+    let bookingTypeVar = DropDown()
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,9 +66,14 @@ class ReservationViewController: UIViewController, BEMCheckBoxDelegate, UITextFi
     
     //Initial Setting or on edit button
     func initialSetting(){
-        bookingStatusDropDown.dataSource = ["cancel", "no-show", "completed", "confirmed", "hold", "new", "left-message", "partially-arrived", "arrived", "partially-seated", "seated", ]
-        peopleDropDown.dataSource = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"]
-        durationDropDown.dataSource = ["15 min", "30 min", "45 min", "60 min", "90 min", "120 min", "150 min", "180 min", "210 min", "240 min", "270 min", "300 min"]
+        
+        var _: [DropDown] = {
+            return [self.bookingStatusDropDownVar, self.peopleDropDownVar,self.numberOfTableVar, self.timeingDropDownVar,self.durationDropDownVar, self.bookingTypeVar]
+        }() 
+        
+        bookingStatusDropDownVar.dataSource = ["cancel", "no-show", "completed", "confirmed", "hold", "new", "left-message", "partially-arrived", "arrived", "partially-seated", "seated"]
+        peopleDropDownVar.dataSource = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "32", "32", "33", "34", "35", "36"]
+        durationDropDownVar.dataSource = ["15 min", "30 min", "45 min", "60 min", "90 min", "120 min", "150 min", "180 min", "210 min", "240 min", "270 min", "300 min"]
         getTimes()
         getBookingTypes()
         getAvailableTables()
@@ -75,17 +89,19 @@ class ReservationViewController: UIViewController, BEMCheckBoxDelegate, UITextFi
         guestPhoneNumber.delegate = self
         mailId.delegate = self
         notes.delegate = self
-        
-        
         if bookingData != nil{
             contentView.isUserInteractionEnabled = true
             navigationTitle.title = "Edit Reservation"
             contentView.isUserInteractionEnabled = false
             guestPhoneNumber.text = bookingData?.user.mobile
+            bookingStatusDropDown.setTitle(bookingData?.status, for: .normal)
+            peopleDropDown.setTitle(String(describing: (bookingData?.guests)!), for: .normal)
+            durationDropDown.setTitle("\(String(describing: (bookingData?.duration)!)) min", for: .normal)
+            
             let url = bookingData?.user.photoUrl
             guestPhoto.adoptCircularShape()
             guestPhoto.downloadedFrom(link: url!, contentMode: .scaleAspectFit)
-            guestName.text = "\(String(describing: bookingData?.user.name["first"]!)) \(String(describing: bookingData?.user.name["last"]!))"
+            guestName.text = "\(String(describing: (bookingData?.user.name["first"]!)!)) \(String(describing: (bookingData?.user.name["last"]!)!))"
             mailId.text = bookingData?.user.email
             notes.text = bookingData?.notes
             if (bookingData?.user.vip)!{
@@ -93,7 +109,24 @@ class ReservationViewController: UIViewController, BEMCheckBoxDelegate, UITextFi
             }
             
         }
-        
+        bookingStatusDropDownVar.selectionAction = { [unowned self] (index: Int, item: String) in
+            self.bookingStatusDropDown.setTitle(item, for: .normal)
+        }
+        peopleDropDownVar.selectionAction = { [unowned self] (index: Int, item: String) in
+            self.peopleDropDown.setTitle(item, for: .normal)
+        }
+        numberOfTableVar.selectionAction = { [unowned self] (index: Int, item: String) in
+            self.numberOfTable.setTitle(item, for: .normal)
+        }
+        timeingDropDownVar.selectionAction = { [unowned self] (index: Int, item: String) in
+            self.timeingDropDown.setTitle(item, for: .normal)
+        }
+        durationDropDownVar.selectionAction = { [unowned self] (index: Int, item: String) in
+            self.durationDropDown.setTitle(item, for: .normal)
+        }
+        bookingTypeVar.selectionAction = { [unowned self] (index: Int, item: String) in
+            self.bookingType.setTitle(item, for: .normal)
+        }
         
     }
     func didTap(_ checkBox: BEMCheckBox) {
@@ -127,15 +160,37 @@ class ReservationViewController: UIViewController, BEMCheckBoxDelegate, UITextFi
             parameter["internalNotes"] = ""
         }
         parameter["restaurant"] = SessionManager.current.selectedRestaurant.id
-        let availableTime = availableTimesArray[timeingDropDown.selectedItem!]
-        let dateFormatter = DateFormatter()
-        dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZ"
-        let arrivalDateStringInUtc = dateFormatter.string(from: availableTime!)
-        parameter["arrival"] = arrivalDateStringInUtc
-        parameter["duration"] = durationDropDown.selectedItem
-        parameter["guests"] = peopleDropDown.selectedItem
-        parameter["id"] = [tablesArray[numberOfTable.selectedItem!]]
+        if timeingDropDownVar.selectedItem != nil{
+            let availableTime = availableTimesArray[timeingDropDownVar.selectedItem!]
+            let dateFormatter = DateFormatter()
+            dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
+            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZ"
+            let arrivalDateStringInUtc = dateFormatter.string(from: availableTime!)
+            parameter["arrival"] = arrivalDateStringInUtc
+        }else{
+            parameter["arrival"] = ""
+        }
+        parameter["duration"] = ""
+        if durationDropDownVar.selectedItem != nil{
+            parameter["duration"] = durationDropDownVar.selectedItem
+        }
+        parameter["guests"] = ""
+        if peopleDropDownVar.selectedItem != nil{
+            parameter["guests"] = peopleDropDownVar.selectedItem
+        }
+        parameter["tables"] = ""
+        if numberOfTableVar.selectedItem != nil{
+            parameter["tables"] = [tablesArray[numberOfTableVar.selectedItem!]]
+        }
+        parameter["status"] = ""
+        if bookingStatusDropDownVar.selectedItem != nil{
+            parameter["status"] = bookingStatusDropDownVar.selectedItem
+        }
+        parameter["bookingType"] = ""
+        if bookingTypeVar.selectedItem != nil{
+            parameter["bookingType"] = bookingTypeVar.selectedItem
+        }
+        
         parameter["notes"] = notes.text
         parameter["online"] = "0"
         parameter["walkIn"] = "0"
@@ -143,8 +198,6 @@ class ReservationViewController: UIViewController, BEMCheckBoxDelegate, UITextFi
         parameter["notifySms"] = smsConfirmation.on
         parameter["notifyPayment"] = manualPayment.on
         parameter["dne"] = "0"
-        parameter["status"] = bookingStatusDropDown.selectedItem
-        parameter["bookingType"] = bookingType.selectedItem
         
         var user = [String: String]()
         user["id"] = userId
@@ -155,7 +208,7 @@ class ReservationViewController: UIViewController, BEMCheckBoxDelegate, UITextFi
         parameter["user"] = user
         
         if bookingData != nil{
-            ConnectionManager.put("/booking", body: parameter as AnyObject, useToken: true, showProgressView: true, completionHandler: {(status, response) in
+            ConnectionManager.put("/booking/\(String(describing: (bookingData?.bookingId)!))", body: parameter as AnyObject, useToken: true, showProgressView: true, completionHandler: {(status, response) in
             
                 if status == 200{
                     DispatchQueue.main.async {
@@ -168,6 +221,7 @@ class ReservationViewController: UIViewController, BEMCheckBoxDelegate, UITextFi
                     }
                 }else{
                     DispatchQueue.main.async {
+                        self.dismiss(animated: true, completion: nil)
                         let vc = Utilities.alertViewController(title: "Update failed", msg: "Try Again!")
                         self.present(vc, animated: true, completion: nil)
                     }
@@ -197,7 +251,7 @@ class ReservationViewController: UIViewController, BEMCheckBoxDelegate, UITextFi
         }
     }
     @IBAction func onEdit(_ sender: Any) {
-        contentView.isUserInteractionEnabled = true
+        contentView.isUserInteractionEnabled = !contentView.isUserInteractionEnabled
     }
     
     func getTimes(){
@@ -238,7 +292,7 @@ class ReservationViewController: UIViewController, BEMCheckBoxDelegate, UITextFi
                         }
                     }
                     DispatchQueue.main.async {
-                        self.timeingDropDown.dataSource = Array(self.availableTimesArray.keys)
+                        self.timeingDropDownVar.dataSource = Array(self.availableTimesArray.keys)
                     }
                     
                 }
@@ -269,7 +323,7 @@ class ReservationViewController: UIViewController, BEMCheckBoxDelegate, UITextFi
                         self.bookingTypeArray.append(each["name"] as! String)
                     }
                     DispatchQueue.main.async {
-                        self.bookingType.dataSource = self.bookingTypeArray
+                        self.bookingTypeVar.dataSource = self.bookingTypeArray
                     }
                 }
             }else if status == 401{//token expired
@@ -290,8 +344,8 @@ class ReservationViewController: UIViewController, BEMCheckBoxDelegate, UITextFi
             today = time
         }
         parameter["arrival"] = today
-        parameter["guests"] = bookingData?.guests
-        parameter["duration"] = bookingData?.duration
+        parameter["guests"] = String(describing: (bookingData?.guests)!)
+        parameter["duration"] = String(describing: (bookingData?.duration)!)
         parameter["omit"] = "_id"
         ConnectionManager.get("/availability/tables", showProgressView: false, parameter: parameter as [String : AnyObject] , completionHandler: {
             (status, response) in
@@ -301,7 +355,7 @@ class ReservationViewController: UIViewController, BEMCheckBoxDelegate, UITextFi
                         self.tablesArray[each["name"] as! String] = each["id"] as? String
                     }
                     DispatchQueue.main.async {
-                        self.numberOfTable.dataSource = Array(self.tablesArray.keys)
+                        self.numberOfTableVar.dataSource = Array(self.tablesArray.keys)
                     }
                 }
             }else if status == 401{//token expired
@@ -310,6 +364,23 @@ class ReservationViewController: UIViewController, BEMCheckBoxDelegate, UITextFi
         })
 
     }
+    
+    @IBAction func onDropDown(_ sender: UIButton) {
+        if sender.tag == 101{
+            timeingDropDownVar.show()
+        }else if sender.tag == 102{
+            durationDropDownVar.show()
+        }else if sender.tag == 103{
+            peopleDropDownVar.show()
+        }else if sender.tag == 104{
+            numberOfTableVar.show()
+        }else if sender.tag == 105{
+            bookingTypeVar.show()
+        }else if sender.tag == 106{
+            bookingStatusDropDownVar.show()
+        }
+    }
+    
 }
 
 

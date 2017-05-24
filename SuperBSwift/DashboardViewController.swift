@@ -11,6 +11,8 @@ import UIKit
 class DashboardViewController: UIViewController,UIViewControllerTransitioningDelegate, MenuViewControllerDelegate, UITableViewDelegate, UITableViewDataSource {
     
     
+    @IBOutlet weak var coverView: UIView!
+    @IBOutlet weak var moreTableViewHeight: NSLayoutConstraint!
     @IBOutlet weak var moreTableView: UITableView!
     @IBOutlet weak var headingDateLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
@@ -38,6 +40,7 @@ class DashboardViewController: UIViewController,UIViewControllerTransitioningDel
         let today = format.string(from: querieDay)
         headingDateLabel.text = today
         moreTableView.isHidden = true
+        coverView.isHidden = true
         
     }
 
@@ -53,6 +56,7 @@ class DashboardViewController: UIViewController,UIViewControllerTransitioningDel
     
     func reloadData(){
         let format = DateFormatter()
+        coverView.isHidden = true
         format.dateFormat =  "EEEE d'th' LLLL"
         let today = format.string(from: querieDay)
         headingDateLabel.text = today
@@ -140,8 +144,11 @@ class DashboardViewController: UIViewController,UIViewControllerTransitioningDel
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //More Table view cell
         if tableView.tag == 101{
-            let moreCell = tableView.dequeueReusableCell(withIdentifier: "MoreCell", for: indexPath)
-            moreCell.textLabel?.text = moreTableArray[indexPath.row]
+            let moreCell = tableView.dequeueReusableCell(withIdentifier: "MoreCell", for: indexPath) as! MoreTableViewCell
+            moreCell.labelHead?.text = moreTableArray[indexPath.row]
+            if moreTableArray[indexPath.row] == "Dismiss"{
+            moreCell.labelHead?.textColor = UIColor.red
+            }
             return moreCell
         }
         //Dashboard cell
@@ -176,6 +183,7 @@ class DashboardViewController: UIViewController,UIViewControllerTransitioningDel
             let selectedStatus = moreTableArray[indexPath.row]
             if selectedStatus == "Dismiss"{
                 tableView.isHidden = true
+                coverView.isHidden = true
                 return
             }
             var parameter = [String: String]()
@@ -187,17 +195,24 @@ class DashboardViewController: UIViewController,UIViewControllerTransitioningDel
                     self.bookingArray[self.selectedIndex!].status = selectedStatus
                     DispatchQueue.main.async {
                         self.moreTableView.isHidden = true
+                        self.coverView.isHidden = true
+                        self.tableView.backgroundColor = UIColor(hex: 0xFFFFFF, alpha: 1.0)
                         self.tableView.reloadData()
                     }
                     
                 }
                 self.selectedIndex = nil
+                DispatchQueue.main.async {
+                    self.coverView.isHidden = true
+                    self.tableView.backgroundColor = UIColor(hex: 0xFFFFFF, alpha: 1.0)
+                }
+                
             })
             
         }else{
         
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "ReservationViewController") as! ReservationViewController
-        vc.navigationTitle.title = "Edit Reservation"
+        //vc.navigationTitle.title = "Edit Reservation"
         vc.bookingData = bookingArray[indexPath.row]
         present(vc, animated: true, completion: nil)
         }
@@ -206,6 +221,9 @@ class DashboardViewController: UIViewController,UIViewControllerTransitioningDel
     }
     //Adding swiping cell functionality
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        if (self.bookingArray[indexPath.row].status == "completed"){
+            return []
+        }
         selectedIndex = indexPath.row
         let cancelled = UITableViewRowAction(style: .normal, title: "Cancelled") { action, index in
             let selectedStatus = "cancel"
@@ -252,6 +270,10 @@ class DashboardViewController: UIViewController,UIViewControllerTransitioningDel
                 self.moreTableArray = [ "completed", "no-show", "Dismiss"]
             }
             if self.moreTableArray.count > 1{
+                self.coverView.isHidden = false
+                self.tableView.backgroundColor = UIColor(hex: 0x000000, alpha: 0.5)
+                self.moreTableView.layer.cornerRadius = 5.0
+                self.moreTableViewHeight.constant = CGFloat(28 * self.moreTableArray.count)
                 self.moreTableView.isHidden = false
                 self.moreTableView.delegate = self
                 self.moreTableView.dataSource = self
@@ -358,26 +380,18 @@ class DashboardViewController: UIViewController,UIViewControllerTransitioningDel
                 }
                 userInfo = UserInfo(id: userInfoDict["id"] as? String, name: userInfoDict["name"] as? [String: String], email: userInfoDict["email"] as? String, zipCode: userInfoDict["zipCode"] as? String, mobile: (userInfoDict["mobile"] as? String)!, hasCard: userInfoDict["hasCard"] as? Bool, token: userInfoDict["token"] as? String, isNew: userInfoDict["isNew"] as? Bool, manager: userInfoDict["manager"] as? Bool, staff: userInfoDict["staff"] as? Bool, admin: userInfoDict["admin"] as? Bool, vip: userInfoDict["vip"] as? Bool, photoUrl: userInfoDict["profilePictureUrl"] as? String, restaurants: restaurants)
                 }
-            let booking = ReservationInfo(bookingId: bookingDict["bookingId"] as? String, bookingType: bookingDict["bookingType"] as? String, arrivalTime: bookingDict["arrival"] as? String, duration: bookingDict["duration"] as? Int, guests: bookingDict["guests"] as? Int, code: bookingDict["code"] as? String, created: bookingDict["created"] as? String, deleted: bookingDict["deleted"] as? Int, internalNotes: bookingDict["internalNotes"] as? String, modified: bookingDict["modified"] as? String, notes: bookingDict["notes"] as? String, online: bookingDict["online"] as? Int, paid: bookingDict["paid"] as? Int, paymentAssociated: bookingDict["paymentAssociated"] as? Int, restaurant: bookingDict["restaurant"] as? String, status: bookingDict["status"] as? String, supplements: bookingDict["supplements"] as? String, takeAway: bookingDict["takeAway"] as? Int, turnaround: bookingDict["turnaround"] as? Int, walkIn: bookingDict["walkIn"] as? Int, arrTables: bookingDict["arrTables"] as? [AnyObject], user: userInfo)
+            //print(bookingDict["id"])
+            let booking = ReservationInfo(bookingId: bookingDict["id"] as? String, bookingType: bookingDict["bookingType"] as? String, arrivalTime: bookingDict["arrival"] as? String, duration: bookingDict["duration"] as? Int, guests: bookingDict["guests"] as? Int, code: bookingDict["code"] as? String, created: bookingDict["created"] as? String, deleted: bookingDict["deleted"] as? Int, internalNotes: bookingDict["internalNotes"] as? String, modified: bookingDict["modified"] as? String, notes: bookingDict["notes"] as? String, online: bookingDict["online"] as? Int, paid: bookingDict["paid"] as? Int, paymentAssociated: bookingDict["paymentAssociated"] as? Int, restaurant: bookingDict["restaurant"] as? String, status: bookingDict["status"] as? String, supplements: bookingDict["supplements"] as? String, takeAway: bookingDict["takeAway"] as? Int, turnaround: bookingDict["turnaround"] as? Int, walkIn: bookingDict["walkIn"] as? Int, arrTables: bookingDict["arrTables"] as? [AnyObject], user: userInfo)
             
             bookingArray.append(booking)
         }
     }
     @IBAction func onAddNewButton(_ sender: Any) {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "ReservationViewController") as! ReservationViewController
-        //vc.navigationTitle.title = "New Reservation"
-        //vc.bookingData = bookingArray[indexPath.row]
         present(vc, animated: true, completion: nil)
     }
     
 }
-
-
-
-
-
-
-
 
 
 

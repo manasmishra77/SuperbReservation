@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -19,7 +20,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         navigationController?.isNavigationBarHidden = false
-        navigationController?.navigationBar.barTintColor = UIColor(hex: 0xAD9557, alpha: 0.6)
+        //navigationController?.navigationBar.barTintColor = UIColor(hex: 0xAD9557, alpha: 0.6)
         loginCheckUp()
     }
 
@@ -29,6 +30,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     override func viewDidAppear(_ animated: Bool) {
         loginCheckUp()
+        Analytics.logEvent("AnalyticsEventSelectContent", parameters: ["UserId": SessionManager.current.userInfo.id])
     }
     
     //Login Check

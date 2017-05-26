@@ -67,6 +67,15 @@ class ReservationViewController: UIViewController, BEMCheckBoxDelegate, UITextFi
     //Initial Setting or on edit button
     func initialSetting(){
         
+        vipCheckBox.onTintColor = UIColor(hex: 0xAD9557, alpha: 1.0)
+        emailConfirmation.onTintColor = UIColor(hex: 0xAD9557, alpha: 1.0)
+        smsConfirmation.onTintColor = UIColor(hex: 0xAD9557, alpha: 1.0)
+        manualPayment.onTintColor = UIColor(hex: 0xAD9557, alpha: 1.0)
+        vipCheckBox.onCheckColor = UIColor(hex: 0xAD9557, alpha: 1.0)
+        emailConfirmation.onCheckColor = UIColor(hex: 0xAD9557, alpha: 1.0)
+        smsConfirmation.onCheckColor = UIColor(hex: 0xAD9557, alpha: 1.0)
+        manualPayment.onCheckColor = UIColor(hex: 0xAD9557, alpha: 1.0)
+        
         var _: [DropDown] = {
             return [self.bookingStatusDropDownVar, self.peopleDropDownVar,self.numberOfTableVar, self.timeingDropDownVar,self.durationDropDownVar, self.bookingTypeVar]
         }() 

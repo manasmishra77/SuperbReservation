@@ -109,21 +109,8 @@ restaurant.</string>
                                                     <action selector="signInButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ejj-KD-bGZ"/>
                                                 </connections>
                                             </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DON'T HAVE A LOGIN:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F0H-oj-lxf">
-                                                <rect key="frame" x="154.33333333333331" y="478" width="106.33333333333331" height="12"/>
-                                                <fontDescription key="fontDescription" name="WorkSans-Regular" family="Work Sans" pointSize="10"/>
-                                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OX5-wz-1ak">
-                                                <rect key="frame" x="268.66666666666669" y="472" width="49" height="24"/>
-                                                <fontDescription key="fontDescription" name="WorkSans-Regular" family="Work Sans" pointSize="10"/>
-                                                <state key="normal" title="WRITE US">
-                                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                </state>
-                                            </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HlV-s4-nCG">
-                                                <rect key="frame" x="295" y="346" width="99" height="27"/>
+                                                <rect key="frame" x="295" y="346.66666666666669" width="99" height="27"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="99" id="E0J-sD-kUl"/>
                                                 </constraints>
@@ -147,7 +134,6 @@ restaurant.</string>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstItem="OX5-wz-1ak" firstAttribute="centerY" secondItem="F0H-oj-lxf" secondAttribute="centerY" id="0a3-IC-Cf1"/>
                                             <constraint firstItem="vCl-km-r80" firstAttribute="top" secondItem="kGB-G8-fnB" secondAttribute="top" constant="40" id="3qe-RO-Z3v"/>
                                             <constraint firstItem="HlV-s4-nCG" firstAttribute="baseline" secondItem="eM0-du-4vi" secondAttribute="baseline" id="6wf-Mg-JIv"/>
                                             <constraint firstAttribute="trailing" secondItem="vCl-km-r80" secondAttribute="trailing" constant="8" id="72A-ZT-klQ"/>
@@ -157,7 +143,6 @@ restaurant.</string>
                                             <constraint firstItem="eM0-du-4vi" firstAttribute="top" secondItem="wjT-Eu-L0B" secondAttribute="bottom" constant="8" id="AK6-xm-zWd"/>
                                             <constraint firstItem="laU-ef-ESV" firstAttribute="top" secondItem="q9L-oJ-9Fz" secondAttribute="bottom" id="Agk-UO-6rd"/>
                                             <constraint firstItem="vCl-km-r80" firstAttribute="leading" secondItem="kGB-G8-fnB" secondAttribute="leading" constant="8" id="Dca-zB-XKo"/>
-                                            <constraint firstItem="OX5-wz-1ak" firstAttribute="leading" secondItem="F0H-oj-lxf" secondAttribute="trailing" constant="8" id="JeW-fC-Gt2"/>
                                             <constraint firstAttribute="trailing" secondItem="laU-ef-ESV" secondAttribute="trailing" constant="20" id="MPq-iP-OSb"/>
                                             <constraint firstItem="gjU-86-yvm" firstAttribute="leading" secondItem="kGB-G8-fnB" secondAttribute="leading" constant="20" id="Mgh-Bz-3ZD"/>
                                             <constraint firstItem="q9L-oJ-9Fz" firstAttribute="leading" secondItem="kGB-G8-fnB" secondAttribute="leading" constant="20" id="Nsc-Z2-64G"/>
@@ -165,14 +150,12 @@ restaurant.</string>
                                             <constraint firstItem="wjT-Eu-L0B" firstAttribute="leading" secondItem="kGB-G8-fnB" secondAttribute="leading" constant="20" id="WcA-xr-3Ic"/>
                                             <constraint firstItem="5KY-1C-gce" firstAttribute="top" secondItem="vCl-km-r80" secondAttribute="bottom" constant="50" id="WyM-n3-28W"/>
                                             <constraint firstItem="5KY-1C-gce" firstAttribute="leading" secondItem="kGB-G8-fnB" secondAttribute="leading" constant="20" id="dj6-GE-Qu0"/>
-                                            <constraint firstItem="F0H-oj-lxf" firstAttribute="centerX" secondItem="kGB-G8-fnB" secondAttribute="centerX" id="dxh-Gd-aDz"/>
                                             <constraint firstAttribute="trailing" secondItem="Z2Z-e0-aYP" secondAttribute="trailing" constant="30" id="gk0-ja-zjw"/>
                                             <constraint firstItem="Z2Z-e0-aYP" firstAttribute="top" secondItem="gjU-86-yvm" secondAttribute="top" constant="30" id="jLa-22-CMb"/>
                                             <constraint firstItem="gjU-86-yvm" firstAttribute="bottom" secondItem="eM0-du-4vi" secondAttribute="bottom" id="k7M-WO-ke2"/>
                                             <constraint firstItem="Z2Z-e0-aYP" firstAttribute="leading" secondItem="kGB-G8-fnB" secondAttribute="leading" constant="30" id="kaC-TX-nMB"/>
                                             <constraint firstItem="HlV-s4-nCG" firstAttribute="leading" secondItem="eM0-du-4vi" secondAttribute="trailing" id="l8O-L0-Osc"/>
                                             <constraint firstItem="q9L-oJ-9Fz" firstAttribute="top" secondItem="5KY-1C-gce" secondAttribute="bottom" constant="8" id="qwG-6g-Juy"/>
-                                            <constraint firstItem="F0H-oj-lxf" firstAttribute="top" secondItem="Z2Z-e0-aYP" secondAttribute="bottom" constant="20" id="r4o-7g-oKx"/>
                                             <constraint firstAttribute="trailing" secondItem="q9L-oJ-9Fz" secondAttribute="trailing" constant="20" id="rUr-9t-lS4"/>
                                             <constraint firstItem="laU-ef-ESV" firstAttribute="leading" secondItem="kGB-G8-fnB" secondAttribute="leading" constant="20" id="xRZ-Rx-h9I"/>
                                         </constraints>
@@ -400,8 +383,8 @@ restaurant.</string>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ra6-fu-AsX">
-                                                    <rect key="frame" x="183" y="3" width="42" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <rect key="frame" x="184.33333333333337" y="5" width="40.666666666666657" height="17.666666666666668"/>
+                                                    <fontDescription key="fontDescription" name="WorkSans-Medium" family="Work Sans" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -457,7 +440,6 @@ restaurant.</string>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PjW-xc-pCT">
                                     <rect key="frame" x="15" y="14" width="170" height="18"/>
                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
-                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AhK-ES-pvl">
@@ -544,7 +526,7 @@ restaurant.</string>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
-                                        <color key="backgroundColor" red="0.72549019607843135" green="0.64313725490196072" blue="0.43529411764705883" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="bottom" secondItem="fyC-fe-QiF" secondAttribute="bottom" constant="20" id="VGQ-AJ-Bx2"/>
                                             <constraint firstItem="EtS-dv-fl5" firstAttribute="leading" secondItem="kJ4-Lp-mzH" secondAttribute="leading" constant="10" id="aPn-vg-2dt"/>
@@ -633,14 +615,14 @@ restaurant.</string>
                                 </constraints>
                                 <items>
                                     <navigationItem title="Add Resrvation" id="WJL-bW-PvH">
-                                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="78c-PY-IWp">
+                                        <barButtonItem key="leftBarButtonItem" image="btn_close" id="78c-PY-IWp">
                                             <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <connections>
                                                 <action selector="onCancel:" destination="919-30-P0Z" id="9tl-Rx-f7E"/>
                                             </connections>
                                         </barButtonItem>
                                         <rightBarButtonItems>
-                                            <barButtonItem systemItem="done" id="6vy-DK-a7D">
+                                            <barButtonItem image="icon_save" id="6vy-DK-a7D">
                                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <connections>
                                                     <action selector="onDone:" destination="919-30-P0Z" id="Cjz-d4-Fld"/>
@@ -688,10 +670,10 @@ restaurant.</string>
                                                         </constraints>
                                                     </imageView>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="312-jT-Pzw">
-                                                        <rect key="frame" x="0.0" y="56" width="374" height="2"/>
+                                                        <rect key="frame" x="0.0" y="56" width="374" height="1"/>
                                                         <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="2" id="Ivl-qc-eiy"/>
+                                                            <constraint firstAttribute="height" constant="1" id="Ivl-qc-eiy"/>
                                                         </constraints>
                                                     </imageView>
                                                 </subviews>
@@ -1021,7 +1003,7 @@ restaurant.</string>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R51-23-Xev" customClass="BEMCheckBox">
-                                                <rect key="frame" x="20" y="530" width="15" height="15"/>
+                                                <rect key="frame" x="20" y="539" width="15" height="15"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="15" id="bZT-gP-Yls"/>
@@ -1029,11 +1011,11 @@ restaurant.</string>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UV8-hY-gsN" customClass="BEMCheckBox">
-                                                <rect key="frame" x="20" y="550" width="15" height="15"/>
+                                                <rect key="frame" x="20" y="562" width="15" height="15"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aeZ-Zb-b9J" customClass="BEMCheckBox">
-                                                <rect key="frame" x="20" y="570" width="15" height="15"/>
+                                                <rect key="frame" x="20" y="585" width="15" height="15"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="VIP" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aAd-KJ-RbN">
@@ -1043,19 +1025,19 @@ restaurant.</string>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Send email confirmation" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ozt-Q9-aQv">
-                                                <rect key="frame" x="61.000000000000014" y="528" width="193.33333333333337" height="19"/>
+                                                <rect key="frame" x="61.000000000000014" y="537" width="193.33333333333337" height="19"/>
                                                 <fontDescription key="fontDescription" name="WorkSans-Medium" family="Work Sans" pointSize="16"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Send sms confirmation" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="10n-da-pNI">
-                                                <rect key="frame" x="61" y="552" width="183" height="19"/>
+                                                <rect key="frame" x="61" y="560" width="183" height="19"/>
                                                 <fontDescription key="fontDescription" name="WorkSans-Medium" family="Work Sans" pointSize="16"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Manual payment" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n0V-JJ-TgJ">
-                                                <rect key="frame" x="61" y="576" width="130.33333333333334" height="19"/>
+                                                <rect key="frame" x="61" y="583" width="130.33333333333334" height="19"/>
                                                 <fontDescription key="fontDescription" name="WorkSans-Medium" family="Work Sans" pointSize="16"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -1074,7 +1056,7 @@ restaurant.</string>
                                             <constraint firstItem="612-if-cuT" firstAttribute="leading" secondItem="mu6-eE-kUU" secondAttribute="leading" id="57C-OP-0XN"/>
                                             <constraint firstItem="thu-Rx-ihO" firstAttribute="leading" secondItem="b3R-Y4-dVx" secondAttribute="leading" id="59q-a6-ESN"/>
                                             <constraint firstItem="ech-C5-hG3" firstAttribute="baseline" secondItem="HkT-46-emY" secondAttribute="baseline" id="5FJ-19-PXS"/>
-                                            <constraint firstItem="aeZ-Zb-b9J" firstAttribute="top" secondItem="UV8-hY-gsN" secondAttribute="bottom" constant="5" id="6Ij-ba-VYb"/>
+                                            <constraint firstItem="aeZ-Zb-b9J" firstAttribute="top" secondItem="UV8-hY-gsN" secondAttribute="bottom" constant="8" id="6Ij-ba-VYb"/>
                                             <constraint firstItem="zm7-Ls-AEi" firstAttribute="width" secondItem="thu-Rx-ihO" secondAttribute="width" id="6Jd-rW-idS"/>
                                             <constraint firstItem="UV8-hY-gsN" firstAttribute="width" secondItem="R51-23-Xev" secondAttribute="width" id="6tf-rk-Y8U"/>
                                             <constraint firstItem="DL5-Bj-bCs" firstAttribute="top" secondItem="kb4-ap-Pwt" secondAttribute="bottom" constant="5" id="8Hh-hx-5p3"/>
@@ -1083,11 +1065,11 @@ restaurant.</string>
                                             <constraint firstItem="kgX-2W-cR0" firstAttribute="leading" secondItem="HkT-46-emY" secondAttribute="leading" id="9jF-FF-NMG"/>
                                             <constraint firstItem="h8m-4L-9JU" firstAttribute="top" secondItem="kgX-2W-cR0" secondAttribute="bottom" constant="2" id="BhK-e4-GXR"/>
                                             <constraint firstAttribute="height" constant="672" id="CHE-Fd-itX"/>
+                                            <constraint firstItem="n0V-JJ-TgJ" firstAttribute="centerY" secondItem="aeZ-Zb-b9J" secondAttribute="centerY" id="CSD-lE-aQz"/>
                                             <constraint firstItem="ELF-eJ-g1Z" firstAttribute="height" secondItem="A4m-jL-OT7" secondAttribute="height" id="Cr4-Ug-em5"/>
                                             <constraint firstItem="9HF-xx-ZvG" firstAttribute="leading" secondItem="h8m-4L-9JU" secondAttribute="leading" id="DZf-hq-zRX"/>
                                             <constraint firstItem="Orh-5W-214" firstAttribute="top" secondItem="Hmu-CF-ZdS" secondAttribute="bottom" constant="20" id="Dgp-U9-AiY"/>
                                             <constraint firstItem="9HF-xx-ZvG" firstAttribute="width" secondItem="h8m-4L-9JU" secondAttribute="width" id="Dx9-4e-cTN"/>
-                                            <constraint firstItem="n0V-JJ-TgJ" firstAttribute="top" secondItem="10n-da-pNI" secondAttribute="bottom" constant="5" id="EF8-AY-fBD"/>
                                             <constraint firstItem="thu-Rx-ihO" firstAttribute="baseline" secondItem="612-if-cuT" secondAttribute="baseline" id="EUv-Vu-7VS"/>
                                             <constraint firstItem="CNg-vd-p5c" firstAttribute="leading" secondItem="agq-5A-HkQ" secondAttribute="leading" constant="20" id="EvC-YL-30J"/>
                                             <constraint firstItem="k80-eA-URa" firstAttribute="baseline" secondItem="5Ln-Bt-Ipm" secondAttribute="baseline" id="FlG-Gl-EGB"/>
@@ -1095,14 +1077,14 @@ restaurant.</string>
                                             <constraint firstItem="aAd-KJ-RbN" firstAttribute="leading" secondItem="Orh-5W-214" secondAttribute="trailing" constant="12" id="Ge8-ga-Wcr"/>
                                             <constraint firstItem="h8m-4L-9JU" firstAttribute="leading" secondItem="CNg-vd-p5c" secondAttribute="leading" id="HT8-Xr-N54"/>
                                             <constraint firstItem="DL5-Bj-bCs" firstAttribute="leading" secondItem="kb4-ap-Pwt" secondAttribute="leading" id="IL2-3I-w64"/>
-                                            <constraint firstItem="R51-23-Xev" firstAttribute="top" secondItem="9HF-xx-ZvG" secondAttribute="bottom" constant="11" id="IbC-4T-yzq"/>
+                                            <constraint firstItem="R51-23-Xev" firstAttribute="top" secondItem="9HF-xx-ZvG" secondAttribute="bottom" constant="20" id="IbC-4T-yzq"/>
                                             <constraint firstItem="ELF-eJ-g1Z" firstAttribute="trailing" secondItem="A4m-jL-OT7" secondAttribute="trailing" id="KGI-Vs-d4h"/>
                                             <constraint firstAttribute="trailing" secondItem="DL5-Bj-bCs" secondAttribute="trailing" constant="20" id="O7o-FG-H5K"/>
                                             <constraint firstItem="mu6-eE-kUU" firstAttribute="top" secondItem="CNg-vd-p5c" secondAttribute="bottom" constant="2" id="Pfu-Nj-zIS"/>
+                                            <constraint firstItem="10n-da-pNI" firstAttribute="centerY" secondItem="UV8-hY-gsN" secondAttribute="centerY" id="Pxe-po-XU5"/>
                                             <constraint firstItem="Lyb-AQ-Yye" firstAttribute="height" secondItem="KPQ-EP-W7B" secondAttribute="height" id="QUN-RC-zAy"/>
                                             <constraint firstItem="Lyb-AQ-Yye" firstAttribute="leading" secondItem="KPQ-EP-W7B" secondAttribute="leading" id="QXv-LG-2Vl"/>
                                             <constraint firstItem="0Bo-Ud-1DW" firstAttribute="width" secondItem="Lyb-AQ-Yye" secondAttribute="width" id="RAf-wc-Evm"/>
-                                            <constraint firstItem="10n-da-pNI" firstAttribute="top" secondItem="Ozt-Q9-aQv" secondAttribute="bottom" constant="5" id="RIW-eB-sm7"/>
                                             <constraint firstItem="612-if-cuT" firstAttribute="width" secondItem="mu6-eE-kUU" secondAttribute="width" id="S3f-qd-rca"/>
                                             <constraint firstItem="kgX-2W-cR0" firstAttribute="top" secondItem="mu6-eE-kUU" secondAttribute="bottom" constant="20" id="SeZ-ps-2Om"/>
                                             <constraint firstItem="aeZ-Zb-b9J" firstAttribute="width" secondItem="UV8-hY-gsN" secondAttribute="width" id="TaE-Nv-PZM"/>
@@ -1117,7 +1099,7 @@ restaurant.</string>
                                             <constraint firstItem="CNg-vd-p5c" firstAttribute="top" secondItem="HkT-46-emY" secondAttribute="bottom" constant="2" id="YwR-UR-RXx"/>
                                             <constraint firstItem="thu-Rx-ihO" firstAttribute="height" secondItem="b3R-Y4-dVx" secondAttribute="height" id="Z7h-4K-n8N"/>
                                             <constraint firstItem="kb4-ap-Pwt" firstAttribute="leading" secondItem="h8m-4L-9JU" secondAttribute="leading" id="aHb-Kd-4tC"/>
-                                            <constraint firstItem="UV8-hY-gsN" firstAttribute="top" secondItem="R51-23-Xev" secondAttribute="bottom" constant="5" id="aNy-Kg-7Gt"/>
+                                            <constraint firstItem="UV8-hY-gsN" firstAttribute="top" secondItem="R51-23-Xev" secondAttribute="bottom" constant="8" id="aNy-Kg-7Gt"/>
                                             <constraint firstItem="612-if-cuT" firstAttribute="height" secondItem="mu6-eE-kUU" secondAttribute="height" id="ak8-nw-1We"/>
                                             <constraint firstItem="zm7-Ls-AEi" firstAttribute="leading" secondItem="thu-Rx-ihO" secondAttribute="leading" id="ank-kE-UHe"/>
                                             <constraint firstItem="KPQ-EP-W7B" firstAttribute="leading" secondItem="ech-C5-hG3" secondAttribute="leading" id="bfg-b7-wTB"/>
@@ -1181,7 +1163,7 @@ restaurant.</string>
                                 </connections>
                             </scrollView>
                         </subviews>
-                        <color key="backgroundColor" red="0.67843137249999996" green="0.58431372550000005" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="lJG-jO-SZM" secondAttribute="trailing" id="1sh-4p-C4E"/>
@@ -1560,13 +1542,13 @@ restaurant.</string>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WGc-St-qaa">
-                                        <rect key="frame" x="44" y="51" width="17" height="33"/>
+                                        <rect key="frame" x="43.666666666666664" y="51" width="17" height="33"/>
                                         <fontDescription key="fontDescription" name="WorkSans-Light" family="Work Sans" pointSize="27.5"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GQe-xj-f5s">
-                                        <rect key="frame" x="200" y="51" width="17" height="33"/>
+                                        <rect key="frame" x="199.66666666666666" y="51" width="17" height="33"/>
                                         <fontDescription key="fontDescription" name="WorkSans-Light" family="Work Sans" pointSize="27.5"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -1768,7 +1750,7 @@ restaurant.</string>
                                                 <rect key="frame" x="0.0" y="0.0" width="150" height="130"/>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3aT-LJ-cB7">
-                                                <rect key="frame" x="63" y="52" width="24.666666666666657" height="47"/>
+                                                <rect key="frame" x="63.666666666666657" y="52" width="24.666666666666686" height="47"/>
                                                 <fontDescription key="fontDescription" name="WorkSans-Light" family="Work Sans" pointSize="40"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -2076,6 +2058,7 @@ restaurant.</string>
         <image name="icon_location" width="9" height="15"/>
         <image name="icon_menu" width="21" height="17"/>
         <image name="icon_right" width="6" height="11"/>
+        <image name="icon_save" width="23" height="16"/>
         <image name="icon_star" width="17" height="16"/>
         <image name="icon_time" width="15" height="15"/>
         <image name="icon_update" width="21" height="21"/>

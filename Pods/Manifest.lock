@@ -1,6 +1,23 @@
 PODS:
   - BEMCheckBox (1.4.0)
+  - Crashlytics (3.8.4):
+    - Fabric (~> 1.6.3)
   - DropDown (2)
+  - Fabric (1.6.11)
+  - Firebase/Core (4.0.0):
+    - FirebaseAnalytics (= 4.0.0)
+    - FirebaseCore (= 4.0.0)
+  - FirebaseAnalytics (4.0.0):
+    - FirebaseCore (~> 4.0)
+    - FirebaseInstanceID (~> 2.0)
+    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+  - FirebaseCore (4.0.0):
+    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+  - FirebaseInstanceID (2.0.0):
+    - FirebaseCore (~> 4.0)
+  - GoogleToolboxForMac/Defines (2.1.1)
+  - GoogleToolboxForMac/NSData+zlib (2.1.1):
+    - GoogleToolboxForMac/Defines (= 2.1.1)
   - JTCalendar (2.1.9)
   - MBProgressHUD (1.0.0)
   - SDWebImage (3.8.2):
@@ -9,18 +26,28 @@ PODS:
 
 DEPENDENCIES:
   - BEMCheckBox
+  - Crashlytics
   - DropDown
+  - Fabric
+  - Firebase/Core
   - JTCalendar (~> 2.0)
   - MBProgressHUD (~> 1.0.0)
   - SDWebImage
 
 SPEC CHECKSUMS:
   BEMCheckBox: e18e4a148905b290bd03d98b767651c104f4eda3
+  Crashlytics: 79e236942ca1e7fc641df1feb9a275360a78ab6a
   DropDown: 744784d9c9aa505100e942c16acd05430cbb2f0a
+  Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
+  Firebase: 284eea779b73fdff309791817da7c68bff8dd572
+  FirebaseAnalytics: 6f08e746f7d66f5452931bc2e822b5df9c66b64a
+  FirebaseCore: 85ad466044c2f013cdb167f85d426d15b128114a
+  FirebaseInstanceID: 9fbf536668f4d3f0880e7438456dabd1376e294b
+  GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
   JTCalendar: beb2f4c1b639bf6880f680b4858227acf83a049c
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
 
-PODFILE CHECKSUM: d8d328be951c8ffca9d394415cc8a1dd1a9fd6fd
+PODFILE CHECKSUM: 9154e6fab11cf6a5629d4a827ad6d7eb4295d3ad
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.2.1

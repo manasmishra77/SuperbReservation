@@ -27,7 +27,7 @@ class DashboardViewController: UIViewController,UIViewControllerTransitioningDel
     @IBOutlet weak var menuButton: UIBarButtonItem!
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.navigationBar.barTintColor = UIColor(hex: 0xAD9557, alpha: 0.6)
+        //navigationController?.navigationBar.barTintColor = UIColor(hex: 0xAD9557, alpha: 0.6)
         navigationController?.isNavigationBarHidden = false
         // Do any additional setup after loading the view.
         //RefreshControl

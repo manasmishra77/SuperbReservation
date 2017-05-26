@@ -15,8 +15,8 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var userNameTF: UITextField!
     @IBOutlet weak var passwordTF: UITextField!
     
-    var validEmail = true //change
-    var validPassword = true //change
+    var validEmail = false //change
+    var validPassword = false //change
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,8 +24,8 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         // Do any additional setup after loading the view.
         userNameTF.delegate = self
         passwordTF.delegate = self
-        userNameTF.text = "demo@dinesuperb.com" //change
-        passwordTF.text = "ds2017" //change
+        //userNameTF.text = "demo@dinesuperb.com" //change
+        //passwordTF.text = "ds2017" //change
 
         self.navigationController?.isNavigationBarHidden = true
         NotificationCenter.default.addObserver(self, selector: #selector(SignInViewController.keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
@@ -61,6 +61,24 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func forgotPasswordButtonTapped(_ sender: Any) {
+        if validEmail{
+            var parameter = [String: String]()
+            parameter["email"] = userNameTF.text
+            ConnectionManager.post("/user/forgot-password", body: parameter as AnyObject, useToken: false, showProgressView: true, completionHandler: {(status, response) in
+                if status == 200{
+                DispatchQueue.main.async {
+                    let alert = Utilities.alertViewController(title: "Request sent", msg: "Check your mail for new password")
+                    self.present(alert, animated: true, completion: nil)
+                    }
+                }else{
+                    let alert = Utilities.alertViewController(title: "Request failed!!", msg: "Try again!!")
+                    self.present(alert, animated: true, completion: nil)
+                }
+            })
+        }else{
+            let alertController = Utilities.alertViewController(title: "Invalid email", msg: "Enter a valid emailid")
+            self.present(alertController, animated: true, completion: nil)
+        }
     }
 
     @IBAction func signInButtonTapped(_ sender: Any) {

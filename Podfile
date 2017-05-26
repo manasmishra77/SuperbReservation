@@ -11,6 +11,9 @@ target 'SuperBSwift' do
  pod 'SDWebImage'
 pod 'BEMCheckBox'
 pod 'DropDown'
+pod 'Fabric'
+pod 'Crashlytics'
+pod 'Firebase/Core'
 
   target 'SuperBSwiftTests' do
     inherit! :search_paths

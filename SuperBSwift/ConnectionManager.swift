@@ -105,7 +105,7 @@ class ConnectionManager: NSObject
                     let spinnerActivity = MBProgressHUD.showAdded(to: appDel.window!, animated: true);
                     spinnerActivity.label.text = "Loading"
                     spinnerActivity.label.textColor =  UIColor.white
-                    spinnerActivity.bezelView.color = UIColor.clear
+                    spinnerActivity.bezelView.color = UIColor(hex: 0xAD9557, alpha: 0.6)
                     spinnerActivity.detailsLabel.text = "Please Wait!!"
                     spinnerActivity.detailsLabel.textColor =  UIColor.white
                     spinnerActivity.isUserInteractionEnabled = false

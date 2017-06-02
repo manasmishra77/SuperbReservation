@@ -88,10 +88,34 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if selectedRestaurant.id != ""{
             let selRestaurantId = NSKeyedArchiver.archivedData(withRootObject: selectedRestaurant.id)
             UserDefaults.standard.setValue(selRestaurantId, forKey: "SelectedRestaurantId")
-            //to Dashboard viewcontroller
-            let vc = self.storyboard?.instantiateViewController(withIdentifier: "DashboardVC") as! DashboardViewController
-            vc.selectedRestaurant = selectedRestaurant
-            self.navigationController?.setViewControllers([vc], animated: true)
+            
+            ConnectionManager.get("/restaurant/\(selectedRestaurant.id)", showProgressView: true, parameter: nil, completionHandler: {(status, response) in
+            
+                if status == 200{
+                    if let reponseDict = response as? [String: Any]{
+                        if let timeZoneString = reponseDict["timezone"] as? String{
+                            let timeZone = TimeZone(identifier: timeZoneString)
+                            SessionManager.current.selectedRestaurant.timeZone = timeZone
+                            
+                            //to Dashboard viewcontroller
+                            DispatchQueue.main.async {
+                                let vc = self.storyboard?.instantiateViewController(withIdentifier: "DashboardVC") as! DashboardViewController
+                                vc.selectedRestaurant = self.selectedRestaurant
+                                self.navigationController?.setViewControllers([vc], animated: true)
+                            }
+                            
+                        }
+                    }
+                }else if status == 401{
+                    
+                }else{
+                    DispatchQueue.main.async {
+                        let alert = Utilities.alertViewController(title: "Server Error", msg: "Try Again!!")
+                        self.present(alert, animated: true, completion: nil)
+                        self.view.isUserInteractionEnabled = true
+                    }
+                }
+            })
         }
 
     }

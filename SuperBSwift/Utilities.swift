@@ -128,6 +128,13 @@ extension String
         
         return cleanString
     }
+    func dropLast(_ n: Int = 1) -> String {
+            return String(characters.dropLast(n))
+        }
+        var dropLast: String {
+            return dropLast()
+        }
+    
 
     var localized: String {
             return NSLocalizedString(self, tableName: nil, bundle: Bundle.main, value: "", comment: "")

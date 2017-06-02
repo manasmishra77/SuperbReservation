@@ -36,6 +36,13 @@ class DashboardViewController: UIViewController,UIViewControllerTransitioningDel
         tableView.addSubview(refreshControl)
         //Date format
         let format = DateFormatter()
+        format.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        if selectedRestaurant?.timeZone != nil{
+            format.timeZone = selectedRestaurant?.timeZone
+        }
+        let dateString = format.string(from: Date())
+        querieDay = format.date(from: dateString)!
+        SessionManager.current.querieDay = querieDay
         format.dateFormat =  "EEEE d'th' LLLL"
         let today = format.string(from: querieDay)
         headingDateLabel.text = today
@@ -66,11 +73,12 @@ class DashboardViewController: UIViewController,UIViewControllerTransitioningDel
         refreshControl.isEnabled = false
         let format = DateFormatter()
         format.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        format.timeZone = NSTimeZone(abbreviation: "UTC") as! TimeZone
+        format.timeZone = SessionManager.current.selectedRestaurant.timeZone
         let calendar = NSCalendar(calendarIdentifier: .gregorian)
         var components = calendar?.components([.year, .month, .weekOfYear, .weekday], from: querieDay)
         components?.hour = 0
         components?.minute = 0
+        components?.timeZone = selectedRestaurant?.timeZone
         let startDate = calendar?.date(from: components!)
         components?.hour = 23
         components?.minute = 59
@@ -93,7 +101,7 @@ class DashboardViewController: UIViewController,UIViewControllerTransitioningDel
         parameter["q"] = jsonString
         parameter["sort"] = "arrival"
         parameter["populate"] = "user"
-        ConnectionManager.get("/booking/dashboard", showProgressView: false, parameter: parameter as [String : AnyObject], completionHandler: {(status, response) in
+        ConnectionManager.get("/booking/dashboard", showProgressView: true, parameter: parameter as [String : AnyObject], completionHandler: {(status, response) in
             if status == 500{
                 let alert = Utilities.alertViewController(title: "Network Error", msg: "Try Again!!")
                 self.present(alert, animated: true, completion: nil)
@@ -160,6 +168,7 @@ class DashboardViewController: UIViewController,UIViewControllerTransitioningDel
         let calendar = NSCalendar(calendarIdentifier: .gregorian)
         let format = DateFormatter()
         format.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZ"
+        format.timeZone = selectedRestaurant?.timeZone
         let arrivalDate = format.date(from: bookingDict.arrivalTime)
         format.dateFormat = "HH:mm"
         let startTime = format.string(from: arrivalDate!)
@@ -183,6 +192,8 @@ class DashboardViewController: UIViewController,UIViewControllerTransitioningDel
             let selectedStatus = moreTableArray[indexPath.row]
             if selectedStatus == "Dismiss"{
                 tableView.isHidden = true
+                self.tableView.backgroundColor = UIColor(hex: 0xFFFFFF, alpha: 1.0)
+                self.tableView.reloadData()
                 coverView.isHidden = true
                 return
             }
@@ -221,6 +232,9 @@ class DashboardViewController: UIViewController,UIViewControllerTransitioningDel
     }
     //Adding swiping cell functionality
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        if tableView.tag == 101{
+            return nil
+        }
         if (self.bookingArray[indexPath.row].status == "completed"){
             return []
         }
@@ -359,11 +373,13 @@ class DashboardViewController: UIViewController,UIViewControllerTransitioningDel
     @IBAction func nextDateButon(_ sender: Any) {
             let interval = TimeInterval(60 * 60 * 24 * 1)
             querieDay = querieDay.addingTimeInterval(interval)
+            SessionManager.current.querieDay = querieDay
             reloadData()
     }
     @IBAction func previousDateButton(_ sender: Any) {
         let interval = TimeInterval(-60 * 60 * 24 * 1)
         querieDay = querieDay.addingTimeInterval(interval)
+        SessionManager.current.querieDay = querieDay
         reloadData()
     }
     func convertingToModel(arr: [[String: AnyObject]]){
@@ -382,7 +398,9 @@ class DashboardViewController: UIViewController,UIViewControllerTransitioningDel
                 }
             //print(bookingDict["id"])
             let booking = ReservationInfo(bookingId: bookingDict["id"] as? String, bookingType: bookingDict["bookingType"] as? String, arrivalTime: bookingDict["arrival"] as? String, duration: bookingDict["duration"] as? Int, guests: bookingDict["guests"] as? Int, code: bookingDict["code"] as? String, created: bookingDict["created"] as? String, deleted: bookingDict["deleted"] as? Int, internalNotes: bookingDict["internalNotes"] as? String, modified: bookingDict["modified"] as? String, notes: bookingDict["notes"] as? String, online: bookingDict["online"] as? Int, paid: bookingDict["paid"] as? Int, paymentAssociated: bookingDict["paymentAssociated"] as? Int, restaurant: bookingDict["restaurant"] as? String, status: bookingDict["status"] as? String, supplements: bookingDict["supplements"] as? String, takeAway: bookingDict["takeAway"] as? Int, turnaround: bookingDict["turnaround"] as? Int, walkIn: bookingDict["walkIn"] as? Int, arrTables: bookingDict["arrTables"] as? [AnyObject], user: userInfo)
-            
+            if booking.status == "waiting-list"{
+                SessionManager.current.waitingList.append(booking)
+            }
             bookingArray.append(booking)
         }
     }

@@ -28,6 +28,8 @@ class CalendarViewController: UIViewController, JTCalendarDelegate, UIViewContro
     var minDate = Date()
     var maxDate = Date()
     let calendarManager = JTCalendarManager.init()
+    var nextday: Date?
+    var previousDay: Date?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +39,8 @@ class CalendarViewController: UIViewController, JTCalendarDelegate, UIViewContro
         calendarManager.menuView = calendarMenuView
         calendarManager.contentView = calenderContentView
         calendarManager.setDate(selectedDate)
-        let calendar = Calendar.current
+        var calendar = Calendar.current
+        calendar.timeZone = SessionManager.current.selectedRestaurant.timeZone!
         var components = calendar.dateComponents([.year, .month], from: selectedDate)
         fillingTheHeadingLabels()
         let startOfTheMonth = calendar.date(from: components)
@@ -59,21 +62,23 @@ class CalendarViewController: UIViewController, JTCalendarDelegate, UIViewContro
         
         let format = DateFormatter()
         format.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        format.timeZone = NSTimeZone(abbreviation: "UTC") as! TimeZone
+        //format.timeZone = NSTimeZone(abbreviation: "UTC") as! TimeZone
+        format.timeZone = SessionManager.current.selectedRestaurant.timeZone
         let calendar = NSCalendar(calendarIdentifier: .gregorian)
+        calendar?.timeZone = SessionManager.current.selectedRestaurant.timeZone!
         var components = calendar?.components([.year, .month], from: querieDay)
         components?.hour = 0
         components?.minute = 0
         components?.day = 1
+        //components?.timeZone = SessionManager.current.selectedRestaurant.timeZone
         let startDate = calendar?.date(from: components!)
         components?.month = (components?.month)! + 1
-        let endDateOfTheMonth = (calendar?.date(from: components!))?.addHours(hoursToAdd: -24)
-        components?.hour = 23
-        components?.minute = 59
-        let endDate = calendar?.date(from: components!)
-        
+        nextday = calendar?.date(from: components!)
+        let endDateOfTheMonth = nextday?.addMinutes(minutesToAdd: -1)
+        components?.month = (components?.month)! - 2
+        previousDay = calendar?.date(from: components!)
         let startTime = format.string(from: startDate!)
-        let endTime = format.string(from: endDate!)
+        let endTime = format.string(from: endDateOfTheMonth!)
         
         var query = [String: String]()
         query["restaurant"] = SessionManager.current.selectedRestaurant.id
@@ -90,7 +95,7 @@ class CalendarViewController: UIViewController, JTCalendarDelegate, UIViewContro
         parameter["q"] = jsonString
         parameter["sort"] = "arrival"
         parameter["populate"] = "user"
-        ConnectionManager.get("/booking/dashboard", showProgressView: false, parameter: parameter as [String : AnyObject], completionHandler: {(status, response) in
+        ConnectionManager.get("/booking/dashboard", showProgressView: true, parameter: parameter as [String : AnyObject], completionHandler: {(status, response) in
             if status == 500{
                 let alert = Utilities.alertViewController(title: "Network Error", msg: "Try Again!!")
                 self.present(alert, animated: true, completion: nil)
@@ -188,6 +193,7 @@ class CalendarViewController: UIViewController, JTCalendarDelegate, UIViewContro
                 reservations = reservations + 1
                 if each.status == "waiting-list"{
                     waitingList = waitingList + 1
+                    reservations = 0
                 }
             }
         }
@@ -211,11 +217,11 @@ class CalendarViewController: UIViewController, JTCalendarDelegate, UIViewContro
         }
     }
     func calendarDidLoadNextPage(_ calendar: JTCalendarManager!) {
-        querieDay = calendar.date()
+        querieDay = nextday!
         reload()
     }
     func calendarDidLoadPreviousPage(_ calendar: JTCalendarManager!) {
-        querieDay = calendar.date()
+        querieDay = previousDay!
         reload()
     }
     
@@ -342,13 +348,14 @@ class CalendarViewController: UIViewController, JTCalendarDelegate, UIViewContro
     }
     func dateWiseArranging(){
         bookingDict.removeAll()
+        let bA = bookingArray
         for bookingInfo in bookingArray{
             let format = DateFormatter()
             format.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+            format.timeZone = SessionManager.current.selectedRestaurant.timeZone
             let keyDate = format.date(from: bookingInfo.arrivalTime)
             format.dateFormat = "yyyy-MM-dd"
             let keyString = format.string(from: keyDate!)
-            print("Date:  \(keyString)")
             
             if bookingDict[keyString] != nil{
                 bookingDict[keyString]?.append(bookingInfo)

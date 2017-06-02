@@ -13,6 +13,8 @@ class SessionManager: NSObject {
     var userInfo =  UserInfo()
     var userLoggedIn = false
     var selectedRestaurant = RestaurantInfo()
+    var waitingList = [ReservationInfo]()
+    var querieDay: Date?
 }
 class UserInfo: NSObject{
     var id = ""
@@ -86,6 +88,7 @@ class RestaurantInfo: NSObject{
     var name = ""
     var created = Date()
     var id = ""
+    var timeZone: TimeZone?
     convenience init(name: String?, created: Date?, id: String?){
         self.init()
         if name != nil{

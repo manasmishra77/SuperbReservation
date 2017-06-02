@@ -19,10 +19,14 @@ class AnalyticsViewController: UIViewController, UIViewControllerTransitioningDe
     
     @IBOutlet weak var monthButton: UIButton!
     var querieDay = Date()
-    
+    var nextday: Date?
+    var previousDay: Date?
+    var lastDay = 0
     var bookingArray = [ReservationInfo]()
     var bookingDict = [String: [ReservationInfo]]()
     var bookingDictForWeek = [String: [ReservationInfo]]()
+    
+    var lastDayString = ""
     
 
     override func viewDidLoad() {
@@ -30,7 +34,14 @@ class AnalyticsViewController: UIViewController, UIViewControllerTransitioningDe
 
         // Do any additional setup after loading the view.
         weekTableView.isHidden = true
-        refreshButtonTapped(true)
+        monthButton.setBackgroundImage(nil, for: .normal)
+        monthName.text = ""
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = SessionManager.current.selectedRestaurant.timeZone
+        dateFormatter.dateFormat = "MMMM yyyy"
+        let dateString = dateFormatter.string(from: Date())
+        monthName.text = dateString
+        
         
     }
 
@@ -38,11 +49,18 @@ class AnalyticsViewController: UIViewController, UIViewControllerTransitioningDe
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    override func viewDidAppear(_ animated: Bool) {
+        refreshButtonTapped(true)
+    }
     @IBAction func weekOrMonthButtonTapped(_ sender: UIButton) {
         if sender.tag == 101{//month button
             weekTableView.isHidden = true
+            weekButton.setBackgroundImage(UIImage(named: "underline"), for: .normal)
+            monthButton.setBackgroundImage(nil, for: .normal)
             
         }else{
+            monthButton.setBackgroundImage(UIImage(named: "underline"), for: .normal)
+            weekButton.setBackgroundImage(nil, for: .normal)
             weekTableView.isHidden = false
             weekTableView.delegate = self
             weekTableView.dataSource = self
@@ -53,12 +71,27 @@ class AnalyticsViewController: UIViewController, UIViewControllerTransitioningDe
     
     
     @IBAction func nextMonthButtonTapped(_ sender: Any) {
-        querieDay = querieDay.addDays(daysToAdd: 30)
+        querieDay = previousDay!
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMMM yyyy"
+        let dateString = dateFormatter.string(from: querieDay)
+        monthName.text = dateString
+        
+        let calendar = Calendar.current
+        let range = calendar.range(of: .day, in: .month, for: querieDay)!
+        lastDay = range.count
         getBookings()
         
     }
     @IBAction func previuosMonthButtonTapped(_ sender: Any) {
-        querieDay = querieDay.addDays(daysToAdd: 30)
+        querieDay = nextday!
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMMM yyyy"
+        let dateString = dateFormatter.string(from: querieDay)
+        monthName.text = dateString
+        let calendar = Calendar.current
+        let range = calendar.range(of: .day, in: .month, for: querieDay)!
+        lastDay = range.count
         getBookings()
     }
     
@@ -75,11 +108,14 @@ class AnalyticsViewController: UIViewController, UIViewControllerTransitioningDe
                 reservations = reservations + 1
                 if each.status == "waiting-list"{
                     waitingList = waitingList + 1
+                    reservations = reservations - 1
+                    guests = guests - each.guests
                 }
             }
         guestCount.text = String(guests)
         reservationCount.text = String(reservations)
         waitingListCount.text = String(waitingList)
+        weekTableView.reloadData()
     }
     //MenuViewPresentation
     @IBAction func menuButtontapped(_ sender: Any) {
@@ -155,21 +191,23 @@ class AnalyticsViewController: UIViewController, UIViewControllerTransitioningDe
         
         let format = DateFormatter()
         format.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        format.timeZone = NSTimeZone(abbreviation: "UTC")! as TimeZone
+        //format.timeZone = NSTimeZone(abbreviation: "UTC")! as TimeZone
+        format.timeZone = SessionManager.current.selectedRestaurant.timeZone
         let calendar = NSCalendar(calendarIdentifier: .gregorian)
+        calendar?.timeZone = SessionManager.current.selectedRestaurant.timeZone!
         var components = calendar?.components([.year, .month], from: querieDay)
         components?.hour = 0
         components?.minute = 0
         components?.day = 1
+        //components?.timeZone = SessionManager.current.selectedRestaurant.timeZone
         let startDate = calendar?.date(from: components!)
         components?.month = (components?.month)! + 1
-        let endDateOfTheMonth = (calendar?.date(from: components!))?.addHours(hoursToAdd: -24)
-        components?.hour = 23
-        components?.minute = 59
-        let endDate = calendar?.date(from: components!)
-        
+        nextday = calendar?.date(from: components!)
+        let endDateOfTheMonth = nextday?.addMinutes(minutesToAdd: -1)
+        components?.month = (components?.month)! - 2
+        previousDay = calendar?.date(from: components!)
         let startTime = format.string(from: startDate!)
-        let endTime = format.string(from: endDate!)
+        let endTime = format.string(from: endDateOfTheMonth!)
         
         var query = [String: String]()
         query["restaurant"] = SessionManager.current.selectedRestaurant.id
@@ -186,7 +224,7 @@ class AnalyticsViewController: UIViewController, UIViewControllerTransitioningDe
         parameter["q"] = jsonString
         parameter["sort"] = "arrival"
         parameter["populate"] = "user"
-        ConnectionManager.get("/booking/dashboard", showProgressView: false, parameter: parameter as [String : AnyObject], completionHandler: {(status, response) in
+        ConnectionManager.get("/booking/dashboard", showProgressView: true, parameter: parameter as [String : AnyObject], completionHandler: {(status, response) in
             if status == 500{
                 let alert = Utilities.alertViewController(title: "Network Error", msg: "Try Again!!")
                 self.present(alert, animated: true, completion: nil)
@@ -249,10 +287,11 @@ class AnalyticsViewController: UIViewController, UIViewControllerTransitioningDe
         for bookingInfo in bookingArray{
             let format = DateFormatter()
             format.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+            format.timeZone = SessionManager.current.selectedRestaurant.timeZone
             let keyDate = format.date(from: bookingInfo.arrivalTime)
             format.dateFormat = "yyyy-MM-dd"
             let keyString = format.string(from: keyDate!)
-            print("Date:  \(keyString)")
+            //print("Date:  \(keyString)")
             
             if bookingDict[keyString] != nil{
                 bookingDict[keyString]?.append(bookingInfo)
@@ -263,18 +302,21 @@ class AnalyticsViewController: UIViewController, UIViewControllerTransitioningDe
         }
     }
     func weekWiseArranging(){
+        bookingDictForWeek.removeAll()
         let bookingDateKeys = Array(bookingDict.keys)
         for eachDateString in bookingDateKeys{
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
+            dateFormatter.timeZone = SessionManager.current.selectedRestaurant.timeZone
             let eachDate = dateFormatter.date(from: eachDateString)
-            let calendar = Calendar.current
+            var calendar = Calendar.current
+            calendar.timeZone = SessionManager.current.selectedRestaurant.timeZone!
             let components = calendar.dateComponents([.year, .month], from: eachDate!)
             let startOfTheMonth = calendar.date(from: components)
             
             let range = calendar.range(of: .day, in: .month, for: startOfTheMonth!)
             let lastDays = range?.count
-            var lastDayString = "30th"
+            lastDayString = "30th"
             if lastDays == 31{
                 lastDayString = "31st"
             }
@@ -342,13 +384,14 @@ class AnalyticsViewController: UIViewController, UIViewControllerTransitioningDe
                     reservations = reservations + 1
                     if each.status == "waiting-list"{
                         waitingList = waitingList + 1
+                        reservations = reservations - 1
                     }
                 }
             }
             cell.weekLabel.text = "1st - 7th"
-            cell.guestForWeek.text = String(guests)
-            cell.reservationForWeek.text = String(reservations)
-            cell.waitingListForWeek.text = String(waitingList)
+            cell.guestForWeek.text = String("Guest: \(guests)")
+            cell.reservationForWeek.text = String("Reservation: \(reservations)")
+            cell.waitingListForWeek.text = String("Waiting: \(waitingList)")
         }else if indexPath.row == 1{
             var guests = 0
             var reservations = 0
@@ -359,13 +402,14 @@ class AnalyticsViewController: UIViewController, UIViewControllerTransitioningDe
                     reservations = reservations + 1
                     if each.status == "waiting-list"{
                         waitingList = waitingList + 1
+                        reservations = reservations - 1
                     }
                 }
             }
             cell.weekLabel.text = "8th - 14th"
-            cell.guestForWeek.text = String(guests)
-            cell.reservationForWeek.text = String(reservations)
-            cell.waitingListForWeek.text = String(waitingList)
+            cell.guestForWeek.text = String("Guest: \(guests)")
+            cell.reservationForWeek.text = String("Reservation: \(reservations)")
+            cell.waitingListForWeek.text = String("Waiting: \(waitingList)")
         }else if indexPath.row == 2{
             var guests = 0
             var reservations = 0
@@ -376,13 +420,14 @@ class AnalyticsViewController: UIViewController, UIViewControllerTransitioningDe
                     reservations = reservations + 1
                     if each.status == "waiting-list"{
                         waitingList = waitingList + 1
+                        reservations = reservations - 1
                     }
                 }
             }
             cell.weekLabel.text = "15th - 21st"
-            cell.guestForWeek.text = String(guests)
-            cell.reservationForWeek.text = String(reservations)
-            cell.waitingListForWeek.text = String(waitingList)
+            cell.guestForWeek.text = String("Guest: \(guests)")
+            cell.reservationForWeek.text = String("Reservation: \(reservations)")
+            cell.waitingListForWeek.text = String("Waiting: \(waitingList)")
         }else if indexPath.row == 3{
             var guests = 0
             var reservations = 0
@@ -393,33 +438,35 @@ class AnalyticsViewController: UIViewController, UIViewControllerTransitioningDe
                     reservations = reservations + 1
                     if each.status == "waiting-list"{
                         waitingList = waitingList + 1
+                        reservations = reservations - 1
                     }
                 }
             }
             cell.weekLabel.text = "22nd - 28th"
-            cell.guestForWeek.text = String(guests)
-            cell.reservationForWeek.text = String(reservations)
-            cell.waitingListForWeek.text = String(waitingList)
+            cell.guestForWeek.text = String("Guest: \(guests)")
+            cell.reservationForWeek.text = String("Reservation: \(reservations)")
+            cell.waitingListForWeek.text = String("Waiting: \(waitingList)")
         }else if indexPath.row == 4{
             let bookingDateKeys = Array(bookingDict.keys)
-            let lastString = bookingDateKeys.last
+            let lastString = "29th - \(lastDayString)"
             var guests = 0
             var reservations = 0
             var waitingList = 0
-            if let bookingDictArrayDayWise = bookingDictForWeek[lastString!]{
+            if let bookingDictArrayDayWise = bookingDictForWeek[lastString]{
                 for each in bookingDictArrayDayWise{
                     guests = each.guests + guests
                     reservations = reservations + 1
                     if each.status == "waiting-list"{
                         waitingList = waitingList + 1
+                        reservations = reservations - 1
                     }
                 }
             }
+            
             cell.weekLabel.text = lastString
-            cell.guestForWeek.text = String(guests)
-            cell.reservationForWeek.text = String(reservations)
-            cell.waitingListForWeek.text = String(waitingList)
-
+            cell.guestForWeek.text = String("Guest: \(guests)")
+            cell.reservationForWeek.text = String("Reservation: \(reservations)")
+            cell.waitingListForWeek.text = String("Waiting: \(waitingList)")
         }
         return cell
     }

@@ -24,12 +24,17 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         // Do any additional setup after loading the view.
         userNameTF.delegate = self
         passwordTF.delegate = self
-        //userNameTF.text = "demo@dinesuperb.com" //change
-        //passwordTF.text = "ds2017" //change
+        userNameTF.text = "demo@dinesuperb.com" //change
+        passwordTF.text = "ds2017" //change
 
         self.navigationController?.isNavigationBarHidden = true
         NotificationCenter.default.addObserver(self, selector: #selector(SignInViewController.keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(SignInViewController.keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    override func viewDidDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -71,8 +76,10 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
                     self.present(alert, animated: true, completion: nil)
                     }
                 }else{
-                    let alert = Utilities.alertViewController(title: "Request failed!!", msg: "Try again!!")
-                    self.present(alert, animated: true, completion: nil)
+                    DispatchQueue.main.async {
+                        let alert = Utilities.alertViewController(title: "Request failed!!", msg: "Try again!!")
+                        self.present(alert, animated: true, completion: nil)
+                    }
                 }
             })
         }else{

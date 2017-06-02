@@ -128,8 +128,8 @@ public final class DropDown: UIView {
 	}
 
 	//MARK: Constraints
-	fileprivate var heightConstraint: NSLayoutConstraint!
-	fileprivate var widthConstraint: NSLayoutConstraint!
+    var heightConstraint: NSLayoutConstraint!
+    var widthConstraint: NSLayoutConstraint!
 	fileprivate var xConstraint: NSLayoutConstraint!
 	fileprivate var yConstraint: NSLayoutConstraint!
 

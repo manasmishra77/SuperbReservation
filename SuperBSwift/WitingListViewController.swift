@@ -13,8 +13,8 @@ class WitingListViewController: UIViewController, UIViewControllerTransitioningD
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var moreTableView: UITableView!
     var refreshControl = UIRefreshControl()
-    var bookingArray = [ReservationInfo]()
-    let querieDay = Date()
+    //var bookingArray = [ReservationInfo]()
+    //let querieDay = Date()
     var selectedIndex: Int?
     var moreTableArray = [String]()
 
@@ -23,16 +23,16 @@ class WitingListViewController: UIViewController, UIViewControllerTransitioningD
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        let format = DateFormatter()
+        format.timeZone = SessionManager.current.selectedRestaurant.timeZone
+        format.dateFormat =  "EEEE d'th' LLLL"
+        navigationItem.title = format.string(from: SessionManager.current.querieDay!)
     
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    func reload(){
-        getBookings()
     }
     
 
@@ -110,7 +110,7 @@ class WitingListViewController: UIViewController, UIViewControllerTransitioningD
         if tableView.tag == 101{
             return moreTableArray.count
         }
-        return bookingArray.count
+        return SessionManager.current.waitingList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -121,13 +121,14 @@ class WitingListViewController: UIViewController, UIViewControllerTransitioningD
             return moreCell
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: "WaitingListCell", for: indexPath) as! WaitingListTableViewCell
-        let bookingDict = bookingArray[indexPath.row]
+        let bookingDict = SessionManager.current.waitingList[indexPath.row]
         cell.nameLabel.text = "\(String(describing: bookingDict.user.name["first"]!)) \(String(describing: bookingDict.user.name["last"]!))"
         cell.importantImageView.isHidden = !bookingDict.user.vip
         //Arrival Time
         let calendar = NSCalendar(calendarIdentifier: .gregorian)
         let format = DateFormatter()
         format.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZ"
+        format.timeZone = SessionManager.current.selectedRestaurant.timeZone
         let arrivalDate = format.date(from: bookingDict.arrivalTime)
         format.dateFormat = "HH:mm"
         let startTime = format.string(from: arrivalDate!)
@@ -147,20 +148,62 @@ class WitingListViewController: UIViewController, UIViewControllerTransitioningD
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        if tableView.tag == 101{
+            let selectedStatus = moreTableArray[indexPath.row]
+            if selectedStatus == "Dismiss"{
+                tableView.isHidden = true
+                self.tableView.backgroundColor = UIColor(hex: 0xFFFFFF, alpha: 1.0)
+                self.tableView.reloadData()
+                //coverView.isHidden = true
+                return
+            }
+            var parameter = [String: String]()
+            parameter["status"] = selectedStatus
+            let bookingInfo = SessionManager.current.waitingList[selectedIndex!]
+            let urlString = "/booking/\(bookingInfo.bookingId)"
+            ConnectionManager.put(urlString, body: parameter as AnyObject, useToken: true, showProgressView: true, completionHandler: {(status, response) in
+                if status == 200{
+                    SessionManager.current.waitingList[self.selectedIndex!].status = selectedStatus
+                    DispatchQueue.main.async {
+                        self.moreTableView.isHidden = true
+                        //self.coverView.isHidden = true
+                        self.tableView.backgroundColor = UIColor(hex: 0xFFFFFF, alpha: 1.0)
+                        self.tableView.reloadData()
+                    }
+                    
+                }
+                self.selectedIndex = nil
+                DispatchQueue.main.async {
+                    //self.coverView.isHidden = true
+                    self.tableView.backgroundColor = UIColor(hex: 0xFFFFFF, alpha: 1.0)
+                }
+                
+            })
+            
+        }else{
+            
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "ReservationViewController") as! ReservationViewController
+            //vc.navigationTitle.title = "Edit Reservation"
+            vc.bookingData = SessionManager.current.waitingList[indexPath.row]
+            present(vc, animated: true, completion: nil)
+        }
+
     }
     //Adding swiping cell functionality
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        if tableView.tag == 101{
+            return nil
+        }
         selectedIndex = indexPath.row
         let cancelled = UITableViewRowAction(style: .normal, title: "Cancelled") { action, index in
             let selectedStatus = "cancel"
             var parameter = [String: String]()
             parameter["status"] = selectedStatus
-            let bookingInfo = self.bookingArray[self.selectedIndex!]
+            let bookingInfo = SessionManager.current.waitingList[self.selectedIndex!]
             let urlString = "/booking/\(bookingInfo.bookingId)"
             ConnectionManager.put(urlString, body: parameter as AnyObject, useToken: true, showProgressView: true, completionHandler: {(status, response) in
                 if status == 200{
-                    self.bookingArray.remove(at: self.selectedIndex!)
+                    SessionManager.current.waitingList.remove(at: self.selectedIndex!)
                     DispatchQueue.main.async {
                         self.moreTableView.isHidden = true
                         self.tableView.reloadData()
@@ -175,7 +218,7 @@ class WitingListViewController: UIViewController, UIViewControllerTransitioningD
         
         let more = UITableViewRowAction(style: .normal, title: "More") { action, index in
             
-            let bookingDict = self.bookingArray[indexPath.row]
+            let bookingDict = SessionManager.current.waitingList[indexPath.row]
             self.moreTableArray.removeAll()
             if bookingDict.status == "hold"{
                 
@@ -208,102 +251,6 @@ class WitingListViewController: UIViewController, UIViewControllerTransitioningD
         
         return [cancelled, more]
     }
-    
-    func getBookings(){
-        refreshControl.isEnabled = false
-        let format = DateFormatter()
-        format.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        format.timeZone = NSTimeZone(abbreviation: "UTC")! as TimeZone
-        let calendar = NSCalendar(calendarIdentifier: .gregorian)
-        var components = calendar?.components([.year, .month, .weekOfYear, .weekday], from: querieDay)
-        components?.hour = 0
-        components?.minute = 0
-        let startDate = calendar?.date(from: components!)
-        components?.hour = 23
-        components?.minute = 59
-        let endDate = calendar?.date(from: components!)
-        let startTime = format.string(from: startDate!)
-        let endTime = format.string(from: endDate!)
-        
-        var query = [String: String]()
-        query["restaurant"] = SessionManager.current.selectedRestaurant.id
-        query["startDate"] = startTime
-        query["endDate"] = endTime
-        var jsonString = ""
-        do{
-            let jsonData = try JSONSerialization.data(withJSONObject: query, options: .init(rawValue: 0))
-            jsonString = String(data: jsonData, encoding: .utf8)!
-        }catch{
-            print("Couldn't parse!!")
-        }
-        var parameter = [String: String]()
-        parameter["q"] = jsonString
-        parameter["sort"] = "arrival"
-        parameter["populate"] = "user"
-        ConnectionManager.get("/booking/dashboard", showProgressView: false, parameter: parameter as [String : AnyObject], completionHandler: {(status, response) in
-            if status == 500{
-                let alert = Utilities.alertViewController(title: "Network Error", msg: "Try Again!!")
-                self.present(alert, animated: true, completion: nil)
-            }else{
-                if status == 200{
-                    if let responseArray = response as? [[String: AnyObject]]{
-                        self.convertingToModel(arr: responseArray)
-                        self.tableView.delegate = self
-                        self.tableView.dataSource = self
-                        DispatchQueue.main.async {
-                            self.tableView.reloadData()
-                        }
-                        
-                    }
-                }else if status == 400{
-                    if let response = response as? [String: AnyObject]{
-                        DispatchQueue.main.async {
-                            let alert = Utilities.alertViewController(title: "Error", msg: response["message"] as! String)
-                            self.present(alert, animated: true, completion: nil)
-                            self.view.isUserInteractionEnabled = true
-                        }
-                    }
-                }else if status == 401{//token expired
-                    DispatchQueue.main.async {
-                        self.showLogout()
-                    }
-
-                }else{
-                    DispatchQueue.main.async {
-                        let alert = Utilities.alertViewController(title: "Server Error", msg: "Try Again!!")
-                        self.present(alert, animated: true, completion: nil)
-                        self.view.isUserInteractionEnabled = true
-                    }
-                }
-            }
-            
-        })
-        
-    }
-    
-    func convertingToModel(arr: [[String: AnyObject]]){
-        bookingArray.removeAll()
-        for bookingDict in arr{
-            var userInfo: UserInfo?
-            if let userInfoDict =  bookingDict["user"] as? Dictionary<String, Any>{
-                var restaurants: [RestaurantInfo]? = [RestaurantInfo]()
-                if let restaurantArray = userInfoDict["restaurants"] as? [[String:Any]]{
-                    for restaurant in restaurantArray{
-                        let newRestaurant = RestaurantInfo(name: restaurant["name"] as? String, created: restaurant["created"] as? Date, id: restaurant["id"] as? String)
-                        restaurants?.append(newRestaurant)
-                    }
-                }
-                userInfo = UserInfo(id: userInfoDict["id"] as? String, name: userInfoDict["name"] as? [String: String], email: userInfoDict["email"] as? String, zipCode: userInfoDict["zipCode"] as? String, mobile: (userInfoDict["mobile"] as? String)!, hasCard: userInfoDict["hasCard"] as? Bool, token: userInfoDict["token"] as? String, isNew: userInfoDict["isNew"] as? Bool, manager: userInfoDict["manager"] as? Bool, staff: userInfoDict["staff"] as? Bool, admin: userInfoDict["admin"] as? Bool, vip: userInfoDict["vip"] as? Bool, photoUrl: userInfoDict["profilePictureUrl"] as? String, restaurants: restaurants)
-            }
-            let booking = ReservationInfo(bookingId: bookingDict["bookingId"] as? String, bookingType: bookingDict["bookingType"] as? String, arrivalTime: bookingDict["arrival"] as? String, duration: bookingDict["duration"] as? Int, guests: bookingDict["guests"] as? Int, code: bookingDict["code"] as? String, created: bookingDict["created"] as? String, deleted: bookingDict["deleted"] as? Int, internalNotes: bookingDict["internalNotes"] as? String, modified: bookingDict["modified"] as? String, notes: bookingDict["notes"] as? String, online: bookingDict["online"] as? Int, paid: bookingDict["paid"] as? Int, paymentAssociated: bookingDict["paymentAssociated"] as? Int, restaurant: bookingDict["restaurant"] as? String, status: bookingDict["status"] as? String, supplements: bookingDict["supplements"] as? String, takeAway: bookingDict["takeAway"] as? Int, turnaround: bookingDict["turnaround"] as? Int, walkIn: bookingDict["walkIn"] as? Int, arrTables: bookingDict["arrTables"] as? [AnyObject], user: userInfo)
-            
-            
-            //Fetching the waiting only data
-            if booking.status == "waiting-list"{
-             bookingArray.append(booking)
-            }
-        }
-    }
-
+   
 
 }

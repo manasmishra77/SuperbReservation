@@ -14,6 +14,7 @@ import DropDown
 class ReservationViewController: UIViewController, BEMCheckBoxDelegate, UITextFieldDelegate, UITextViewDelegate {
     
     
+    @IBOutlet weak var contentViewHeight: NSLayoutConstraint!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var contentScrollView: UIScrollView!
     @IBOutlet weak var vipCheckBox: BEMCheckBox!
@@ -52,10 +53,16 @@ class ReservationViewController: UIViewController, BEMCheckBoxDelegate, UITextFi
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(SignInViewController.keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(SignInViewController.keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    override func viewDidDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     override func viewDidAppear(_ animated: Bool) {
         initialSetting()
+        
     }
 
     
@@ -66,7 +73,7 @@ class ReservationViewController: UIViewController, BEMCheckBoxDelegate, UITextFi
     
     //Initial Setting or on edit button
     func initialSetting(){
-        
+        contentViewHeight.constant = self.view.frame.height + 150
         vipCheckBox.onTintColor = UIColor(hex: 0xAD9557, alpha: 1.0)
         emailConfirmation.onTintColor = UIColor(hex: 0xAD9557, alpha: 1.0)
         smsConfirmation.onTintColor = UIColor(hex: 0xAD9557, alpha: 1.0)
@@ -76,6 +83,15 @@ class ReservationViewController: UIViewController, BEMCheckBoxDelegate, UITextFi
         smsConfirmation.onCheckColor = UIColor(hex: 0xAD9557, alpha: 1.0)
         manualPayment.onCheckColor = UIColor(hex: 0xAD9557, alpha: 1.0)
         
+        peopleDropDownVar.anchorView = peopleDropDown
+        bookingStatusDropDownVar.anchorView = bookingStatusDropDown
+        numberOfTableVar.anchorView = numberOfTable
+        timeingDropDownVar.anchorView = timeingDropDown
+        durationDropDownVar.anchorView = durationDropDown
+        bookingTypeVar.anchorView = bookingType
+        peopleDropDownVar.bottomOffset = CGPoint(x: 0, y: 0)
+        
+        
         var _: [DropDown] = {
             return [self.bookingStatusDropDownVar, self.peopleDropDownVar,self.numberOfTableVar, self.timeingDropDownVar,self.durationDropDownVar, self.bookingTypeVar]
         }() 
@@ -83,7 +99,9 @@ class ReservationViewController: UIViewController, BEMCheckBoxDelegate, UITextFi
         bookingStatusDropDownVar.dataSource = ["cancel", "no-show", "completed", "confirmed", "hold", "new", "left-message", "partially-arrived", "arrived", "partially-seated", "seated"]
         peopleDropDownVar.dataSource = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "32", "32", "33", "34", "35", "36"]
         durationDropDownVar.dataSource = ["15 min", "30 min", "45 min", "60 min", "90 min", "120 min", "150 min", "180 min", "210 min", "240 min", "270 min", "300 min"]
-        getTimes()
+        if bookingData == nil{
+            getTimes()
+        }
         getBookingTypes()
         getAvailableTables()
         vipCheckBox.delegate = self
@@ -101,12 +119,21 @@ class ReservationViewController: UIViewController, BEMCheckBoxDelegate, UITextFi
         if bookingData != nil{
             contentView.isUserInteractionEnabled = true
             navigationTitle.title = "Edit Reservation"
-            contentView.isUserInteractionEnabled = false
             guestPhoneNumber.text = bookingData?.user.mobile
             bookingStatusDropDown.setTitle(bookingData?.status, for: .normal)
             peopleDropDown.setTitle(String(describing: (bookingData?.guests)!), for: .normal)
             durationDropDown.setTitle("\(String(describing: (bookingData?.duration)!)) min", for: .normal)
             
+            if bookingData?.arrivalTime != ""{
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZ"
+                dateFormatter.timeZone = SessionManager.current.selectedRestaurant.timeZone
+                let dateToBeDisplayedInUTC = dateFormatter.date(from: (bookingData?.arrivalTime)!)
+                dateFormatter.dateFormat = "HH:mm"
+                //dateFormatter.timeZone = TimeZone.current
+                let dateString = dateFormatter.string(from: dateToBeDisplayedInUTC!)
+                timeingDropDown.setTitle(dateString, for: .normal)
+            }
             let url = bookingData?.user.photoUrl
             guestPhoto.adoptCircularShape()
             guestPhoto.downloadedFrom(link: url!, contentMode: .scaleAspectFit)
@@ -148,77 +175,109 @@ class ReservationViewController: UIViewController, BEMCheckBoxDelegate, UITextFi
         view.endEditing(true)
         return true
     }
-    func textViewDidEndEditing(_ textView: UITextView) {
-        view.endEditing(true)
+    func textViewDidBeginEditing(_ textView: UITextView) {
     }
-    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            textView.resignFirstResponder()
+        }
+        return true
+    }
     
     @IBAction func onCancel(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
     @IBAction func onDone(_ sender: Any) {
         contentView.isUserInteractionEnabled = false
-        var parameter = [String: Any]()
-        var userId = ""
-        if bookingData != nil {
-            parameter["id"] = bookingData?.bookingId
-            parameter["internalNotes"] = bookingData?.internalNotes
-            userId = (bookingData?.user.id)!
-        }else{
-             parameter["id"] = ""
-            parameter["internalNotes"] = ""
-        }
-        parameter["restaurant"] = SessionManager.current.selectedRestaurant.id
+        var parameter = [String: Any?]()
         if timeingDropDownVar.selectedItem != nil{
             let availableTime = availableTimesArray[timeingDropDownVar.selectedItem!]
             let dateFormatter = DateFormatter()
-            dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
+            dateFormatter.timeZone = SessionManager.current.selectedRestaurant.timeZone
             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZ"
             let arrivalDateStringInUtc = dateFormatter.string(from: availableTime!)
             parameter["arrival"] = arrivalDateStringInUtc
         }else{
-            parameter["arrival"] = ""
+            if bookingData != nil{
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZ"
+                dateFormatter.timeZone = SessionManager.current.selectedRestaurant.timeZone
+                let dateToBeDisplayed = dateFormatter.date(from: (bookingData?.arrivalTime)!)
+                let dateString = dateFormatter.string(from: dateToBeDisplayed!)
+                parameter["arrival"] = dateString
+            }else{
+                parameter["arrival"] = (Any?).none
+            }
         }
-        parameter["duration"] = ""
-        if durationDropDownVar.selectedItem != nil{
-            parameter["duration"] = durationDropDownVar.selectedItem
-        }
-        parameter["guests"] = ""
-        if peopleDropDownVar.selectedItem != nil{
-            parameter["guests"] = peopleDropDownVar.selectedItem
-        }
-        parameter["tables"] = ""
-        if numberOfTableVar.selectedItem != nil{
-            parameter["tables"] = [tablesArray[numberOfTableVar.selectedItem!]]
-        }
-        parameter["status"] = ""
-        if bookingStatusDropDownVar.selectedItem != nil{
-            parameter["status"] = bookingStatusDropDownVar.selectedItem
-        }
-        parameter["bookingType"] = ""
         if bookingTypeVar.selectedItem != nil{
             parameter["bookingType"] = bookingTypeVar.selectedItem
+        }else{
+            if bookingData != nil{
+                parameter["bookingType"] = (Any?).none
+            }else{
+                parameter["bookingType"] = bookingData?.bookingType
+            }
+        }
+        parameter["dne"] = 0
+        if durationDropDownVar.selectedItem != nil{
+            let durationString = durationDropDownVar.selectedItem
+            let duration = durationString?.dropLast(4)
+            parameter["duration"] = duration
+        }else{
+            if bookingData != nil{
+                parameter["duration"] = bookingData?.duration
+            }else{
+                parameter["duration"] = 0
+            }
+        }
+        if peopleDropDownVar.selectedItem != nil{
+            
+            parameter["guests"] = peopleDropDownVar.selectedItem
+        }else{
+            if bookingData != nil{
+                parameter["guests"] = bookingData?.guests
+            }else{
+                parameter["guests"] = 0
+            }
+        }
+        if bookingData != nil{
+            parameter["id"] = bookingData?.bookingId
+        }else{
+            parameter["id"] = (Any?).none
         }
         
+        parameter["internalNotes"] = bookingData?.internalNotes
         parameter["notes"] = notes.text
-        parameter["online"] = "0"
-        parameter["walkIn"] = "0"
         parameter["notifyEmail"] = emailConfirmation.on
         parameter["notifySms"] = smsConfirmation.on
         parameter["notifyPayment"] = manualPayment.on
-        parameter["dne"] = "0"
-        
-        var user = [String: String]()
-        user["id"] = userId
+        parameter["online"] = 0
+        parameter["restaurant"] = SessionManager.current.selectedRestaurant.id
+        if bookingStatusDropDownVar.selectedItem != nil{
+            
+            parameter["status"] = peopleDropDownVar.selectedItem
+        }else{
+            if bookingData != nil{
+                parameter["status"] = bookingData?.status
+            }else{
+                parameter["status"] = NSNull()
+            }
+        }
+        var user = [String: Any?]()
+        user["id"] = (Any?).none
+        if bookingData != nil{
+            user["id"] = bookingData?.user.id
+        }
         user["name"] = guestName.text
         user["email"] = mailId.text
         user["mobile"] = guestPhoneNumber.text
         user["notes"] = notes.text
+        user["vip"] = vipCheckBox.on
         parameter["user"] = user
-        
+
         if bookingData != nil{
             ConnectionManager.put("/booking/\(String(describing: (bookingData?.bookingId)!))", body: parameter as AnyObject, useToken: true, showProgressView: true, completionHandler: {(status, response) in
-            
+            self.view.isUserInteractionEnabled = true
                 if status == 200{
                     DispatchQueue.main.async {
                         self.dismiss(animated: true, completion: nil)
@@ -239,7 +298,7 @@ class ReservationViewController: UIViewController, BEMCheckBoxDelegate, UITextFi
             
         }else{
             ConnectionManager.post("/booking", body: parameter as AnyObject, useToken: true, showProgressView: true, completionHandler: {(status, response) in
-                
+                self.view.isUserInteractionEnabled = true
                 if status == 200{
                     DispatchQueue.main.async {
                         self.dismiss(animated: true, completion: nil)
@@ -259,14 +318,12 @@ class ReservationViewController: UIViewController, BEMCheckBoxDelegate, UITextFi
 
         }
     }
-    @IBAction func onEdit(_ sender: Any) {
-        contentView.isUserInteractionEnabled = !contentView.isUserInteractionEnabled
-    }
+
     
     func getTimes(){
         
         let format = DateFormatter()
-        format.timeZone = TimeZone(abbreviation: "UTC")
+        format.timeZone = SessionManager.current.selectedRestaurant.timeZone
         format.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZ"
         var today = format.string(from: Date())
         if (bookingData != nil && bookingData?.arrivalTime != ""){
@@ -278,7 +335,7 @@ class ReservationViewController: UIViewController, BEMCheckBoxDelegate, UITextFi
         var parameter = [String: String]()
         parameter["restaurant"] = SessionManager.current.selectedRestaurant.id
         parameter["date"] = today
-        ConnectionManager.get("/availability/times", showProgressView: false, parameter: parameter as [String : AnyObject], completionHandler: {(status, response) in
+        ConnectionManager.get("/availability/times", showProgressView: true, parameter: parameter as [String : AnyObject], completionHandler: {(status, response) in
             
             if status == 200{
                 if let responseArray = response as? [[String: Any]]{
@@ -290,7 +347,7 @@ class ReservationViewController: UIViewController, BEMCheckBoxDelegate, UITextFi
                                     if available{
                                         if let minutes = time["time"] as? Int{
                                             var calendar = Calendar.current
-                                            calendar.timeZone = TimeZone.current
+                                            calendar.timeZone = SessionManager.current.selectedRestaurant.timeZone!
                                             let dateAtMidnight = calendar.startOfDay(for: Date())
                                             let availableDateAndTime = dateAtMidnight.addMinutes(minutesToAdd: minutes)
                                             self.availableTimesArray["\(minutes/60):\(minutes%60)"] = availableDateAndTime
@@ -345,17 +402,25 @@ class ReservationViewController: UIViewController, BEMCheckBoxDelegate, UITextFi
         var parameter = [String: Any]()
         parameter["restaurant"] = SessionManager.current.selectedRestaurant.id
         let format = DateFormatter()
-        format.timeZone = TimeZone(abbreviation: "UTC")
+        format.timeZone = SessionManager.current.selectedRestaurant.timeZone
+        //format.timeZone = TimeZone(abbreviation: "UTC")
         format.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZ"
+        parameter["omit"] = nil
         var today = format.string(from: Date())
         if (bookingData != nil && bookingData?.arrivalTime != ""){
-            let time = (bookingData?.arrivalTime)!
-            today = time
+            let timeString = (bookingData?.arrivalTime)!
+            let todayTime = format.date(from: timeString)
+            today = format.string(from: todayTime!)
+            parameter["guests"] = String(describing: (bookingData?.guests)!)
+            parameter["duration"] = String(describing: (bookingData?.duration)!)
+            print(bookingData?.bookingId)
+            parameter["omit"] = bookingData?.bookingId
+        }else{
+            parameter["guests"] = "0"
+            parameter["duration"] = "0"
         }
         parameter["arrival"] = today
-        parameter["guests"] = String(describing: (bookingData?.guests)!)
-        parameter["duration"] = String(describing: (bookingData?.duration)!)
-        parameter["omit"] = "_id"
+        
         ConnectionManager.get("/availability/tables", showProgressView: false, parameter: parameter as [String : AnyObject] , completionHandler: {
             (status, response) in
             if status == 200{
@@ -387,6 +452,19 @@ class ReservationViewController: UIViewController, BEMCheckBoxDelegate, UITextFi
             bookingTypeVar.show()
         }else if sender.tag == 106{
             bookingStatusDropDownVar.show()
+        }
+    }
+    func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            let scrollingHeight = notes.frame.origin.y + 10 - (self.view.frame.height - keyboardSize.height)
+            if scrollingHeight > 0{
+                contentScrollView.contentOffset = CGPoint(x: 0, y: scrollingHeight + 90)
+            }
+        }
+    }
+    func keyboardWillHide(notification: NSNotification) {
+        if ((notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue) != nil {
+            contentScrollView.contentOffset = CGPoint(x: 0, y: 0)
         }
     }
     
